@@ -20,6 +20,6 @@ Everything runs in your browser. Nothing you type is stored, sent anywhere, or r
 
 ## Files
 
-`index.html` — the calculator (engine inside). `readme.html` — the README as a page. `logo.png`, `favicon.*`, `apple-touch-icon.png`, `site.webmanifest` — branding and icons.
+`index.html` — the interest calculator (engine inside). `arrears.html` — the arrears repayment calculator: what you owe the landlord, paid down in instalments, interest only on what is left to pay (decreasing principal sum). `readme.html` — the README as a page. `resources.html` — the index of official pages (EPC, Gas Safe, deposit schemes, Companies House, Land Registry, the Acts, courts and free advice). `logo.png`, `favicon.*`, `apple-touch-icon.png`, `site.webmanifest` — branding and icons.
 
-Compliance Conduit — complianceconduit.com
+Savvy Renter — savvyrenter.co.uk · a free tool from Compliance Conduit (complianceconduit.com)

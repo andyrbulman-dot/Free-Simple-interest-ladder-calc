@@ -66,9 +66,23 @@
   .brand a.btn { margin-left:auto; background:#0284c7; color:#fff; padding:8px 14px; border-radius:5px; text-decoration:none; font-weight:bold; font-size:13px; }
   code { background:#0f172a; border:1px solid #334155; border-radius:3px; padding:1px 5px; }
   p { font-size:14px; }
+  body { max-width:1180px; }
+  .shell { display:flex; gap:20px; align-items:flex-start; }
+  .tools { width:200px; flex:none; position:sticky; top:18px; background:#1e293b; border:1px solid #334155; border-radius:8px; padding:12px; }
+  .tools h3 { margin:0 0 10px; font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:#94a3b8; }
+  .tools a { display:block; background:#0284c7; color:#fff; text-decoration:none; font-weight:bold; font-size:14px; padding:9px 12px; border-radius:5px; margin-bottom:8px; }
+  .tools a:hover { background:#0369a1; }
+  .tools a.on { background:#38bdf8; color:#0f172a; }
+  .tools .tiny { font-size:11px; color:#94a3b8; margin-top:6px; }
+  .page { flex:1; min-width:0; }
+  @media (max-width:800px) { .shell { display:block; } .tools { width:auto; position:static; margin-bottom:14px; } }
+  @media print { .tools { display:none !important; } }
 </style>
 </head>
 <body>
+<div class="shell">
+<aside class="tools"><h3>Other tools</h3><a href="index.html">Interest owed to you</a><a href="arrears.html">Paying off arrears</a><a href="resources.html">Resources</a><a href="readme.html" class="on">About / README</a><div class="tiny">Free tools from Compliance Conduit. Nothing you type is stored or sent anywhere.</div></aside>
+<main class="page">
 <div class="brand"><img src="logo.png" alt="Compliance Conduit"><div><h1>Rent Overpayment Interest Calculator</h1><div class="sub">README · Increasing Principal Sum method</div></div><a class="btn" href="index.html">Open the calculator</a></div>
 <p>I built this tool to work out exactly how much my landlord owed me after an unlawful rent increase. Once I had the sums right for myself, I put it online for free to save other tenants the headache of working it out by hand.</p>
 <h2>The legal bit</h2>
@@ -80,7 +94,9 @@
 <h2>Setup</h2>
 <p>Everything runs in your browser. Nothing you type is stored, sent anywhere, or remembered — close the page and it is gone. There is no server and no network call. To run it, open <code>index.html</code> in any browser, or host the folder as static files. The 8% rate is the usual county-court rate (County Courts Act 1984, s.69) and can be changed on the page if the court directs a different one.</p>
 <h2>Files</h2>
-<p><code>index.html</code> — the calculator (the calculation engine is inside it). <code>readme.html</code> — this page. <code>logo.png</code>, <code>favicon.*</code>, <code>apple-touch-icon.png</code>, <code>site.webmanifest</code> — branding and icons.</p>
-<div class="foot">Compliance Conduit — complianceconduit.com</div>
+<p><code>index.html</code> — the interest calculator (the calculation engine is inside it). <code>arrears.html</code> — the arrears repayment calculator (decreasing principal sum). <code>readme.html</code> — this page. <code>resources.html</code> — the index of official pages (EPC, Gas Safe, deposit schemes, Companies House, Land Registry, the Acts, courts and free advice). <code>logo.png</code>, <code>favicon.*</code>, <code>apple-touch-icon.png</code>, <code>site.webmanifest</code> — branding and icons.</p>
+<div class="foot">Savvy Renter — savvyrenter.co.uk · a free tool from Compliance Conduit (complianceconduit.com)</div>
+</main>
+</div>
 </body>
 </html>
