@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>README — Rent Overpayment Interest Calculator</title>
+<link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#0f172a">
+<style>
+
+  body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; line-height:1.5; color:#e2e8f0; max-width:960px; margin:0 auto; padding:24px 18px; background:#0f172a; }
+  h1 { color:#f8fafc; border-bottom:2px solid #334155; padding-bottom:10px; font-size:24px; margin-top:0; }
+  h2 { color:#f1f5f9; font-size:18px; margin:22px 0 6px; border-bottom:1px solid #334155; padding-bottom:6px; }
+  .intro, .note { background:#1e293b; border-left:4px solid #38bdf8; padding:10px 14px; margin:0 0 14px; border-radius:4px; font-size:14px; color:#c9d4e0; }
+  .note.warn { border-left-color:#fbbf24; color:#fde68a; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:10px 16px; }
+  .field { background:#1e293b; padding:10px 12px; border-radius:6px; border:1px solid #334155; }
+  label { display:block; font-weight:600; margin-bottom:5px; font-size:13px; color:#94a3b8; }
+  input, select { padding:7px 8px; border:1px solid #475569; border-radius:5px; font-size:14px; background:#0f172a; color:#f8fafc; box-sizing:border-box; }
+  input:focus, select:focus { outline:none; border-color:#38bdf8; box-shadow:0 0 0 3px rgba(56,189,248,.15); }
+  .dsel { display:inline-flex; gap:4px; }
+  .dsel select { padding:7px 4px; }
+  button { background:#0284c7; color:#fff; padding:10px 20px; border:none; border-radius:5px; font-size:15px; cursor:pointer; font-weight:bold; }
+  button:hover { background:#0369a1; }
+  button.secondary { background:#334155; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px; margin:14px 0; }
+  .card { background:#1e293b; padding:12px; border:1px solid #334155; border-radius:8px; text-align:center; }
+  .card div:first-child { font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:#94a3b8; font-weight:600; }
+  .card .value { font-size:22px; font-weight:700; color:#f8fafc; margin-top:4px; }
+  .card.total { border-top:4px solid #38bdf8; } .card.total .value { color:#38bdf8; }
+  table { width:100%; border-collapse:collapse; margin-top:8px; background:#1e293b; font-size:13px; border:1px solid #334155; }
+  th, td { padding:6px 10px; border-bottom:1px solid #334155; text-align:right; white-space:nowrap; }
+  th:nth-child(-n+3), td:nth-child(-n+3) { text-align:left; }
+  th { background:#334155; color:#f8fafc; }
+  .hidden { display:none !important; }
+  .brand { display:flex; align-items:center; gap:14px; border-bottom:2px solid #334155; padding-bottom:10px; margin-bottom:14px; }
+  .brand img { height:56px; width:auto; border-radius:8px; }
+  .brand h1 { border:none; padding:0; margin:0; font-size:22px; }
+  .brand .sub { color:#94a3b8; font-size:13px; }
+  .brand button { margin-left:auto; }
+  button.small { padding:6px 12px; font-size:13px; }
+  #about { position:fixed; inset:0; background:rgba(2,6,23,.82); display:flex; align-items:center; justify-content:center; padding:20px; z-index:20; }
+  #about[hidden] { display:none; }
+  .about-box { background:#1e293b; border:1px solid #334155; border-radius:10px; max-width:720px; max-height:90vh; overflow:auto; padding:18px 22px; box-shadow:0 10px 30px rgba(0,0,0,.5); }
+  .about-box h2 { margin-top:14px; }
+  .about-box p { margin:6px 0; font-size:14px; }
+  .about-bar { display:flex; align-items:center; gap:12px; }
+  .about-bar img { height:44px; border-radius:6px; }
+  .about-bar h1 { font-size:20px; border:none; margin:0; padding:0; }
+  .about-bar button { margin-left:auto; }
+  @media print { #about, .brand button { display:none !important; } .brand img { height:40px; } }
+  .foot { font-size:12px; color:#94a3b8; margin-top:18px; border-top:1px solid #334155; padding-top:8px; }
+  @media print {
+    body { background:#fff; color:#000; max-width:none; padding:0; font-size:11px; }
+    #form, #runBtn, #printBtn, .intro, .foot .nostore { display:none !important; }
+    h1, h2, .card .value, .card.total .value, th { color:#000; }
+    .card, table, th, td { border-color:#999; background:#fff; }
+    th { background:#eee; }
+    .note { background:#f4f4f4; color:#000; } .note.warn { color:#000; }
+  }
+
+  .brand a.btn { margin-left:auto; background:#0284c7; color:#fff; padding:8px 14px; border-radius:5px; text-decoration:none; font-weight:bold; font-size:13px; }
+  code { background:#0f172a; border:1px solid #334155; border-radius:3px; padding:1px 5px; }
+  p { font-size:14px; }
+</style>
+</head>
+<body>
+<div class="brand"><img src="logo.png" alt="Compliance Conduit"><div><h1>Rent Overpayment Interest Calculator</h1><div class="sub">README · Increasing Principal Sum method</div></div><a class="btn" href="index.html">Open the calculator</a></div>
+<p>I built this tool to work out exactly how much my landlord owed me after an unlawful rent increase. Once I had the sums right for myself, I put it online for free to save other tenants the headache of working it out by hand.</p>
+<h2>The legal bit</h2>
+<p>This tool is a guide, not formal legal advice. The arithmetic follows the way county courts read a claim for interest, but you use it at your own risk. Double-check your final figures with Citizens Advice or Shelter before putting them to a court, a tribunal, or in a Letter Before Action. I am not a solicitor and accept no liability for your claim.</p>
+<h2>How the sums work — the increasing principal sum</h2>
+<p>Most calculators put interest on one lump sum from one date. That is wrong for rent overpayments, because you paid month by month: the principal sum owed to you was increasing the whole time. Your first overpayment has been held the longest and earns the most interest; your last one the least. This tool adds each payment to the running balance on the day it was made, charges simple interest on that balance for the days until the next payment (balance × rate × days ÷ 365), and adds it all up. Interest is never charged on interest. A late first payment does not shift the rest — later payments are counted on the day the rent falls due.</p>
+<h2>What you get</h2>
+<p>A statement laid out for the court: the number of payments, the sums overpaid, the interest to date and the total as at the date you choose; the basis; the method in plain English; one line per payment showing the balance, the interest for that period and the running total; and, where the overpayment is still going on, a note that the figure is rising by so much a day and should be worked again on the day of the hearing. Print it, or save it as a PDF, from the button on the page.</p>
+<h2>Setup</h2>
+<p>Everything runs in your browser. Nothing you type is stored, sent anywhere, or remembered — close the page and it is gone. There is no server and no network call. To run it, open <code>index.html</code> in any browser, or host the folder as static files. The 8% rate is the usual county-court rate (County Courts Act 1984, s.69) and can be changed on the page if the court directs a different one.</p>
+<h2>Files</h2>
+<p><code>index.html</code> — the calculator (the calculation engine is inside it). <code>readme.html</code> — this page. <code>logo.png</code>, <code>favicon.*</code>, <code>apple-touch-icon.png</code>, <code>site.webmanifest</code> — branding and icons.</p>
+<div class="foot">Compliance Conduit — complianceconduit.com</div>
+</body>
+</html>
