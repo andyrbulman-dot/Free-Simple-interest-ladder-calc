@@ -1,6 +1,6 @@
 # Rent Overpayment Interest Calculator — Increasing Principal Sum
 
-I built this tool to work out exactly how much my landlord owed me after an unlawful rent increase. Once I had the sums right for myself, I put it online for free to save other tenants the headache of working it out by hand.
+I built this tool to work out exactly how much my property agent owed me after an error led to an ongoing rent increase. Once I had the sums right for myself, I put it online for free to save other tenants the headache of working it out by hand.
 
 ## The legal bit
 
