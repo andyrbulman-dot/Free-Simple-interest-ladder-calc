@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paying off rent arrears — how many payments, with interest</title>
+<title>Paying off rent arrears — Savvy Renter</title>
 <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="shortcut icon" href="favicon.ico">
@@ -38,10 +38,12 @@
   .hidden { display:none !important; }
   .brand { display:flex; align-items:center; gap:14px; border-bottom:2px solid #334155; padding-bottom:10px; margin-bottom:14px; }
   .brand img { height:56px; width:auto; border-radius:8px; }
-  .brand h1 { border:none; padding:0; margin:0; font-size:22px; }
-  .brand .sub { color:#94a3b8; font-size:13px; }
+  .brand h1 { border:none; padding:0; margin:0; font-size:26px; letter-spacing:-0.2px; }
+  .brand .sub { color:#94a3b8; font-size:13px; margin-top:2px; }
   .brand button { margin-left:auto; }
   button.small { padding:6px 12px; font-size:13px; }
+  .brand .aboutlink { margin-left:auto; background:#334155; color:#fff; text-decoration:none; font-weight:bold; font-size:13px; padding:7px 13px; border-radius:5px; white-space:nowrap; }
+  .brand .aboutlink:hover { background:#475569; }
   #about { position:fixed; inset:0; background:rgba(2,6,23,.82); display:flex; align-items:center; justify-content:center; padding:20px; z-index:20; }
   #about[hidden] { display:none; }
   .about-box { background:#1e293b; border:1px solid #334155; border-radius:10px; max-width:720px; max-height:90vh; overflow:auto; padding:18px 22px; box-shadow:0 10px 30px rgba(0,0,0,.5); }
@@ -63,40 +65,29 @@
   }
   body { max-width:1180px; }
   .shell { display:flex; gap:20px; align-items:flex-start; }
-  .tools { width:200px; flex:none; position:sticky; top:18px; background:#1e293b; border:1px solid #334155; border-radius:8px; padding:12px; }
+  .rail { width:200px; flex:none; position:sticky; top:18px; }
+  .tools { background:#1e293b; border:1px solid #334155; border-radius:8px; padding:12px; }
+  .sidelogo { display:block; width:100%; height:auto; border-radius:10px; margin-top:14px; }
   .tools h3 { margin:0 0 10px; font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:#94a3b8; }
   .tools a { display:block; background:#0284c7; color:#fff; text-decoration:none; font-weight:bold; font-size:14px; padding:9px 12px; border-radius:5px; margin-bottom:8px; }
   .tools a:hover { background:#0369a1; }
   .tools a.on { background:#38bdf8; color:#0f172a; }
   .tools .tiny { font-size:11px; color:#94a3b8; margin-top:6px; }
   .page { flex:1; min-width:0; }
-  @media (max-width:800px) { .shell { display:block; } .tools { width:auto; position:static; margin-bottom:14px; } }
-  @media print { .tools { display:none !important; } }
+  @media (max-width:800px) { .shell { display:block; } .rail { width:auto; position:static; margin-bottom:14px; } .sidelogo { max-width:208px; } }
+  @media print { .rail { display:none !important; } }
 </style>
 </head>
 <body>
 <div class="shell">
-<aside class="tools"><h3>Other tools</h3><a href="index.html">Interest owed to you</a><a href="arrears.html" class="on">Paying off arrears</a><a href="resources.html">Resources</a><a href="readme.html">About / README</a><div class="tiny">Free tools from Compliance Conduit. Nothing you type is stored or sent anywhere.</div></aside>
+<div class="rail"><aside class="tools"><h3>Savvy Renter</h3><a href="index.html">Home</a><a href="interest.html">Interest owed to you</a><a href="arrears.html" class="on">Paying off arrears</a><a href="resources.html">Other resources</a><a href="readme.html">About / README</a><div class="tiny">Free tools for renters. Nothing you type is stored or sent anywhere.</div></aside><img class="sidelogo" src="SavvyRenter-sml.png" alt="Savvy Renter"></div>
 <main class="page">
-<div class="brand"><img src="logo.png" alt="Compliance Conduit"><div><h1>Paying Off Rent Arrears</h1><div class="sub">Decreasing principal sum · how many payments it takes to clear what you owe, with interest</div></div><button type="button" class="secondary small" onclick="aboutOpen()">About</button></div>
+<div class="brand"><div><h1>Paying Off Rent Arrears</h1><div class="sub">Decreasing principal sum · how many payments it takes to clear what you owe, with interest</div></div><a href="index.html" class="aboutlink">About these tools</a></div>
 <div class="intro">
   This tool is to help tenants figure out a fair instalment plan when they fall behind on rent. If your landlord or a court applies statutory interest to your debt, you should only pay interest on what is actually left to pay — not the original lump sum. This calculation tracks that shrinking balance payment by payment: put in what you owe today and what you can pay each time, and it works the balance down until it reaches nil.
   <b>Nothing you type is stored or sent anywhere.</b> Close the page and it is gone.
 </div>
 
-<div id="about">
-  <div class="about-box">
-    <div class="about-bar"><img src="logo.png" alt="Compliance Conduit"><h1>Paying Off Rent Arrears</h1><button type="button" class="secondary small" onclick="aboutClose()">✕ Close</button></div>
-    <p>This tool is to help tenants figure out a fair instalment plan when they fall behind on rent. If your landlord or a court applies statutory interest to your debt, you should only pay interest on what is actually left to pay — not the original lump sum. This calculation tracks that shrinking balance monthly payment by monthly payment (or weekly, fortnightly or quarterly if that is how you pay).</p>
-    <h2>The legal bit</h2>
-    <p>This tool is a guide, not formal legal advice. While the maths tracks standard court rules on a declining balance, you use it at your own risk. You are strongly advised to seek independent advice on these figures before submitting them to your landlord, to make sure they are accurate and that you are not accidentally using an increased amount and overpaying. It is also important to double-check these calculations before relying on them as a defence against eviction in court, to make sure your figures are 100% cast iron. If a landlord turns down a mathematically correct repayment plan, showing you tried to establish a reasonable schedule can form part of your legal backing, but you must ensure the numbers are completely accurate first. I am not a solicitor and accept no liability for your debt or tenancy status.</p>
-    <h2>How the engine works</h2>
-    <p>Standard debt calculators apply interest to the whole lump sum all at once, which is a scam. As you pay off your arrears payment by payment, the core debt shrinks. This tool calculates flat, non-compounding simple interest (like the UK statutory 8% rate) on that declining balance. Every time you make a payment, the principal drops, and the interest charge goes down with it. The loop runs until the debt hits zero, tracking the exact number of payments, the final odd-sized payment, and the true interest cost.</p>
-    <h2>Your data</h2>
-    <p>Everything runs in your browser. Nothing you type is stored, sent anywhere, or remembered — close the page and it is gone.</p>
-    <p style="margin-top:12px;"><button type="button" onclick="aboutClose()">Start</button> <a href="index.html" style="margin-left:12px; color:#38bdf8; font-size:14px;">Owed money by the landlord instead? Use the interest calculator →</a></p>
-  </div>
-</div>
 <div id="form">
 <div class="grid">
   <div class="field"><label>How much you owe the landlord today (£)</label><input type="number" id="owed" step="0.01" min="0" placeholder="e.g. 1850"></div>
@@ -238,9 +229,6 @@ function run() {
 document.getElementById('dueDay').innerHTML = Array.from({length:31},(_,i)=>`<option value="${i+1}">${ord(i+1)}</option>`).join('');
 dateSel('d-first', new Date()); dateSel('d-asat', new Date());
 paint();
-function aboutOpen() { document.getElementById('about').hidden = false; }
-function aboutClose() { document.getElementById('about').hidden = true; }
-// The welcome shows on every visit — nothing is remembered between visits, on purpose.
 </script>
 </body>
 </html>

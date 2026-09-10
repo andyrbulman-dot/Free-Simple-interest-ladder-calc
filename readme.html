@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>README — Rent Overpayment Interest Calculator</title>
+<title>About — Savvy Renter</title>
 <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="shortcut icon" href="favicon.ico">
@@ -39,10 +39,12 @@
   .hidden { display:none !important; }
   .brand { display:flex; align-items:center; gap:14px; border-bottom:2px solid #334155; padding-bottom:10px; margin-bottom:14px; }
   .brand img { height:56px; width:auto; border-radius:8px; }
-  .brand h1 { border:none; padding:0; margin:0; font-size:22px; }
-  .brand .sub { color:#94a3b8; font-size:13px; }
+  .brand h1 { border:none; padding:0; margin:0; font-size:26px; letter-spacing:-0.2px; }
+  .brand .sub { color:#94a3b8; font-size:13px; margin-top:2px; }
   .brand button { margin-left:auto; }
   button.small { padding:6px 12px; font-size:13px; }
+  .brand .aboutlink { margin-left:auto; background:#334155; color:#fff; text-decoration:none; font-weight:bold; font-size:13px; padding:7px 13px; border-radius:5px; white-space:nowrap; }
+  .brand .aboutlink:hover { background:#475569; }
   #about { position:fixed; inset:0; background:rgba(2,6,23,.82); display:flex; align-items:center; justify-content:center; padding:20px; z-index:20; }
   #about[hidden] { display:none; }
   .about-box { background:#1e293b; border:1px solid #334155; border-radius:10px; max-width:720px; max-height:90vh; overflow:auto; padding:18px 22px; box-shadow:0 10px 30px rgba(0,0,0,.5); }
@@ -68,23 +70,25 @@
   p { font-size:14px; }
   body { max-width:1180px; }
   .shell { display:flex; gap:20px; align-items:flex-start; }
-  .tools { width:200px; flex:none; position:sticky; top:18px; background:#1e293b; border:1px solid #334155; border-radius:8px; padding:12px; }
+  .rail { width:200px; flex:none; position:sticky; top:18px; }
+  .tools { background:#1e293b; border:1px solid #334155; border-radius:8px; padding:12px; }
+  .sidelogo { display:block; width:100%; height:auto; border-radius:10px; margin-top:14px; }
   .tools h3 { margin:0 0 10px; font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:#94a3b8; }
   .tools a { display:block; background:#0284c7; color:#fff; text-decoration:none; font-weight:bold; font-size:14px; padding:9px 12px; border-radius:5px; margin-bottom:8px; }
   .tools a:hover { background:#0369a1; }
   .tools a.on { background:#38bdf8; color:#0f172a; }
   .tools .tiny { font-size:11px; color:#94a3b8; margin-top:6px; }
   .page { flex:1; min-width:0; }
-  @media (max-width:800px) { .shell { display:block; } .tools { width:auto; position:static; margin-bottom:14px; } }
-  @media print { .tools { display:none !important; } }
+  @media (max-width:800px) { .shell { display:block; } .rail { width:auto; position:static; margin-bottom:14px; } .sidelogo { max-width:208px; } }
+  @media print { .rail { display:none !important; } }
 </style>
 </head>
 <body>
 <div class="shell">
-<aside class="tools"><h3>Other tools</h3><a href="index.html">Interest owed to you</a><a href="arrears.html">Paying off arrears</a><a href="resources.html">Resources</a><a href="readme.html" class="on">About / README</a><div class="tiny">Free tools from Compliance Conduit. Nothing you type is stored or sent anywhere.</div></aside>
+<div class="rail"><aside class="tools"><h3>Savvy Renter</h3><a href="index.html">Home</a><a href="interest.html">Interest owed to you</a><a href="arrears.html">Paying off arrears</a><a href="resources.html">Other resources</a><a href="readme.html" class="on">About / README</a><div class="tiny">Free tools for renters. Nothing you type is stored or sent anywhere.</div></aside><img class="sidelogo" src="SavvyRenter-sml.png" alt="Savvy Renter"></div>
 <main class="page">
-<div class="brand"><img src="logo.png" alt="Compliance Conduit"><div><h1>Rent Overpayment Interest Calculator</h1><div class="sub">README · Increasing Principal Sum method</div></div><a class="btn" href="index.html">Open the calculator</a></div>
-<p>I built this tool to work out exactly how much my property agent owed me after an error led to an ongoing rent increase. Once I had the sums right for myself, I put it online for free to save other tenants the headache of working it out by hand.</p>
+<div class="brand"><div><h1>Savvy Renter</h1><div class="sub">README · what the tools are, how the sums work, and what is in the folder</div></div><a class="btn" href="interest.html">Open the calculator</a></div>
+<p>I built this tool to work out exactly how much my landlord owed me after an unlawful rent increase. Once I had the sums right for myself, I put it online for free to save other tenants the headache of working it out by hand.</p>
 <h2>The legal bit</h2>
 <p>This tool is a guide, not formal legal advice. The arithmetic follows the way county courts read a claim for interest, but you use it at your own risk. Double-check your final figures with Citizens Advice or Shelter before putting them to a court, a tribunal, or in a Letter Before Action. I am not a solicitor and accept no liability for your claim.</p>
 <h2>How the sums work — the increasing principal sum</h2>
@@ -94,8 +98,8 @@
 <h2>Setup</h2>
 <p>Everything runs in your browser. Nothing you type is stored, sent anywhere, or remembered — close the page and it is gone. There is no server and no network call. To run it, open <code>index.html</code> in any browser, or host the folder as static files. The 8% rate is the usual county-court rate (County Courts Act 1984, s.69) and can be changed on the page if the court directs a different one.</p>
 <h2>Files</h2>
-<p><code>index.html</code> — the interest calculator (the calculation engine is inside it). <code>arrears.html</code> — the arrears repayment calculator (decreasing principal sum). <code>readme.html</code> — this page. <code>resources.html</code> — the index of official pages (EPC, Gas Safe, deposit schemes, Companies House, Land Registry, the Acts, courts and free advice). <code>logo.png</code>, <code>favicon.*</code>, <code>apple-touch-icon.png</code>, <code>site.webmanifest</code> — branding and icons.</p>
-<div class="foot">Savvy Renter — savvyrenter.co.uk · a free tool from Compliance Conduit (complianceconduit.com)</div>
+<p><code>index.html</code> — the home page: what the tools are and how the sums work. <code>interest.html</code> — the interest calculator (the calculation engine is inside it). <code>arrears.html</code> — the arrears repayment calculator (decreasing principal sum). <code>readme.html</code> — this page. <code>resources.html</code> — the index of official pages (EPC, Gas Safe, deposit schemes, Companies House, Land Registry, the Acts, courts and free advice). <code>SavvyRenter.png</code>, <code>SavvyRenter-sml.png</code>, <code>favicon.*</code>, <code>apple-touch-icon.png</code>, <code>site.webmanifest</code> — branding and icons.</p>
+<div class="foot">Savvy Renter — savvyrenter.co.uk · free tools for renters</div>
 </main>
 </div>
 </body>

@@ -1,4 +1,4 @@
-# Rent Overpayment Interest Calculator — Increasing Principal Sum
+# Savvy Renter — free calculators and resources for renters
 
 I built this tool to work out exactly how much my property agent owed me after an error led to an ongoing rent increase. Once I had the sums right for myself, I put it online for free to save other tenants the headache of working it out by hand.
 
@@ -20,6 +20,6 @@ Everything runs in your browser. Nothing you type is stored, sent anywhere, or r
 
 ## Files
 
-`index.html` — the interest calculator (engine inside). `arrears.html` — the arrears repayment calculator: what you owe the landlord, paid down in instalments, interest only on what is left to pay (decreasing principal sum). `readme.html` — the README as a page. `resources.html` — the index of official pages (EPC, Gas Safe, deposit schemes, Companies House, Land Registry, the Acts, courts and free advice). `logo.png`, `favicon.*`, `apple-touch-icon.png`, `site.webmanifest` — branding and icons.
+`index.html` — the home page: what the tools are and how the sums work. `interest.html` — the interest calculator (engine inside). `arrears.html` — the arrears repayment calculator: what you owe the landlord, paid down in instalments, interest only on what is left to pay (decreasing principal sum). `readme.html` — the README as a page. `resources.html` — the index of official pages (EPC, Gas Safe, deposit schemes, Companies House, Land Registry, the Acts, courts and free advice). `SavvyRenter.png`, `SavvyRenter-sml.png`, `favicon.*`, `apple-touch-icon.png`, `site.webmanifest` — branding and icons.
 
-Savvy Renter — savvyrenter.co.uk · a free tool from Compliance Conduit (complianceconduit.com)
+Savvy Renter — savvyrenter.co.uk · free tools for renters

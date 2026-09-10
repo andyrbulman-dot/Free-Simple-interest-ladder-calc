@@ -3,271 +3,74 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rent Overpayment Interest Calculator — Increasing Principal Sum</title>
+<title>Savvy Renter — free calculators and resources for renters</title>
+<meta name="description" content="Free browser-based calculators for renters: interest on rent you have overpaid, and a fair instalment plan for rent arrears. Plus an index of the official places to check certificates, deposits, owners, agents and the law. Nothing is stored or sent anywhere.">
 <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
-<meta name="theme-color" content="#0f172a">
+<meta name="theme-color" content="#001e3d">
 <style>
-  body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; line-height:1.5; color:#e2e8f0; max-width:960px; margin:0 auto; padding:24px 18px; background:#0f172a; }
-  h1 { color:#f8fafc; border-bottom:2px solid #334155; padding-bottom:10px; font-size:24px; margin-top:0; }
+  body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; line-height:1.5; color:#e2e8f0; max-width:1180px; margin:0 auto; padding:24px 18px; background:#0f172a; }
+  h1 { color:#f8fafc; font-size:24px; margin-top:0; }
   h2 { color:#f1f5f9; font-size:18px; margin:22px 0 6px; border-bottom:1px solid #334155; padding-bottom:6px; }
+  h3 { color:#f1f5f9; font-size:15px; margin:14px 0 4px; }
+  p { margin:6px 0; font-size:14px; }
   .intro, .note { background:#1e293b; border-left:4px solid #38bdf8; padding:10px 14px; margin:0 0 14px; border-radius:4px; font-size:14px; color:#c9d4e0; }
-  .note.warn { border-left-color:#fbbf24; color:#fde68a; }
-  .grid { display:grid; grid-template-columns:1fr 1fr; gap:10px 16px; }
-  .field { background:#1e293b; padding:10px 12px; border-radius:6px; border:1px solid #334155; }
-  label { display:block; font-weight:600; margin-bottom:5px; font-size:13px; color:#94a3b8; }
-  input, select { padding:7px 8px; border:1px solid #475569; border-radius:5px; font-size:14px; background:#0f172a; color:#f8fafc; box-sizing:border-box; }
-  input:focus, select:focus { outline:none; border-color:#38bdf8; box-shadow:0 0 0 3px rgba(56,189,248,.15); }
-  .dsel { display:inline-flex; gap:4px; }
-  .dsel select { padding:7px 4px; }
-  button { background:#0284c7; color:#fff; padding:10px 20px; border:none; border-radius:5px; font-size:15px; cursor:pointer; font-weight:bold; }
-  button:hover { background:#0369a1; }
-  button.secondary { background:#334155; }
-  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px; margin:14px 0; }
-  .card { background:#1e293b; padding:12px; border:1px solid #334155; border-radius:8px; text-align:center; }
-  .card div:first-child { font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:#94a3b8; font-weight:600; }
-  .card .value { font-size:22px; font-weight:700; color:#f8fafc; margin-top:4px; }
-  .card.total { border-top:4px solid #38bdf8; } .card.total .value { color:#38bdf8; }
-  table { width:100%; border-collapse:collapse; margin-top:8px; background:#1e293b; font-size:13px; border:1px solid #334155; }
-  th, td { padding:6px 10px; border-bottom:1px solid #334155; text-align:right; white-space:nowrap; }
-  th:nth-child(-n+3), td:nth-child(-n+3) { text-align:left; }
-  th { background:#334155; color:#f8fafc; }
-  .hidden { display:none !important; }
   .brand { display:flex; align-items:center; gap:14px; border-bottom:2px solid #334155; padding-bottom:10px; margin-bottom:14px; }
   .brand img { height:56px; width:auto; border-radius:8px; }
-  .brand h1 { border:none; padding:0; margin:0; font-size:22px; }
-  .brand .sub { color:#94a3b8; font-size:13px; }
-  .brand button { margin-left:auto; }
-  button.small { padding:6px 12px; font-size:13px; }
-  #about { position:fixed; inset:0; background:rgba(2,6,23,.82); display:flex; align-items:center; justify-content:center; padding:20px; z-index:20; }
-  #about[hidden] { display:none; }
-  .about-box { background:#1e293b; border:1px solid #334155; border-radius:10px; max-width:720px; max-height:90vh; overflow:auto; padding:18px 22px; box-shadow:0 10px 30px rgba(0,0,0,.5); }
-  .about-box h2 { margin-top:14px; }
-  .about-box p { margin:6px 0; font-size:14px; }
-  .about-bar { display:flex; align-items:center; gap:12px; }
-  .about-bar img { height:44px; border-radius:6px; }
-  .about-bar h1 { font-size:20px; border:none; margin:0; padding:0; }
-  .about-bar button { margin-left:auto; }
-  @media print { #about, .brand button { display:none !important; } .brand img { height:40px; } }
+  .brand h1 { border:none; padding:0; margin:0; font-size:32px; letter-spacing:-0.2px; }
+  .brand .sub { color:#94a3b8; font-size:13px; margin-top:2px; }
   .foot { font-size:12px; color:#94a3b8; margin-top:18px; border-top:1px solid #334155; padding-top:8px; }
-  @media print {
-    body { background:#fff; color:#000; max-width:none; padding:0; font-size:11px; }
-    #form, #runBtn, #printBtn, .intro, .foot .nostore { display:none !important; }
-    h1, h2, .card .value, .card.total .value, th { color:#000; }
-    .card, table, th, td { border-color:#999; background:#fff; }
-    th { background:#eee; }
-    .note { background:#f4f4f4; color:#000; } .note.warn { color:#000; }
-  }
-  body { max-width:1180px; }
   .shell { display:flex; gap:20px; align-items:flex-start; }
-  .tools { width:200px; flex:none; position:sticky; top:18px; background:#1e293b; border:1px solid #334155; border-radius:8px; padding:12px; }
+  .rail { width:200px; flex:none; position:sticky; top:18px; }
+  .tools { background:#1e293b; border:1px solid #334155; border-radius:8px; padding:12px; }
+  .sidelogo { display:block; width:100%; height:auto; border-radius:10px; margin-top:14px; }
   .tools h3 { margin:0 0 10px; font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:#94a3b8; }
   .tools a { display:block; background:#0284c7; color:#fff; text-decoration:none; font-weight:bold; font-size:14px; padding:9px 12px; border-radius:5px; margin-bottom:8px; }
   .tools a:hover { background:#0369a1; }
   .tools a.on { background:#38bdf8; color:#0f172a; }
   .tools .tiny { font-size:11px; color:#94a3b8; margin-top:6px; }
   .page { flex:1; min-width:0; }
-  @media (max-width:800px) { .shell { display:block; } .tools { width:auto; position:static; margin-bottom:14px; } }
-  @media print { .tools { display:none !important; } }
+  @media (max-width:800px) { .shell { display:block; } .rail { width:auto; position:static; margin-bottom:14px; } .sidelogo { max-width:208px; } }
+
 </style>
 </head>
 <body>
 <div class="shell">
-<aside class="tools"><h3>Other tools</h3><a href="index.html" class="on">Interest owed to you</a><a href="arrears.html">Paying off arrears</a><a href="resources.html">Resources</a><a href="readme.html">About / README</a><div class="tiny">Free tools from Compliance Conduit. Nothing you type is stored or sent anywhere.</div></aside>
+<div class="rail"><aside class="tools"><h3>Savvy Renter</h3><a href="index.html" class="on">Home</a><a href="interest.html">Interest owed to you</a><a href="arrears.html">Paying off arrears</a><a href="resources.html">Other resources</a><a href="readme.html">About / README</a><div class="tiny">Free tools for renters. Nothing you type is stored or sent anywhere.</div></aside><img class="sidelogo" src="SavvyRenter-sml.png" alt="Savvy Renter"></div>
 <main class="page">
-<div class="brand"><img src="logo.png" alt="Compliance Conduit"><div><h1>Rent Overpayment Interest Calculator</h1><div class="sub">Increasing Principal Sum method · simple interest, s.69 County Courts Act 1984</div></div><button type="button" class="secondary small" onclick="aboutOpen()">About</button></div>
+
+<div class="brand"><div><h1>Savvy Renter</h1><div class="sub">Free calculators and resources for renters · savvyrenter.co.uk</div></div></div>
+
 <div class="intro">
-  Worked the way a county court reads it: each overpayment joins the running balance on the day it was paid, and simple interest at 8% a year (County Courts Act 1984, s.69) is charged on that balance for the days until the next payment. A late first payment does not shift the rest — later payments are counted on the day the rent falls due.
-  <b>Nothing you type is stored or sent anywhere.</b> Close the page and it is gone.
+  Two calculators for the two ways rent money goes wrong — money the landlord owes you, and money you owe the landlord — plus an index of the official places to check certificates, deposits, owners, agents and the law.
+  <b>Everything runs in your browser. Nothing you type is stored or sent anywhere.</b> Close the page and it is gone. There is no sign-up, no account and no charge.
 </div>
 
-<div id="about">
-  <div class="about-box">
-    <div class="about-bar"><img src="logo.png" alt="Compliance Conduit"><h1>Rent Overpayment Interest Calculator</h1><button type="button" class="secondary small" onclick="aboutClose()">✕ Close</button></div>
-    <p>I built this tool to work out exactly how much my property agent owed me after an error led to an ongoing rent increase. Once I had the sums right for myself, I put it online for free to save other tenants the headache of working it out by hand.</p>
-    <h2>The legal bit</h2>
-    <p>This tool is a guide, not formal legal advice. The arithmetic follows the way county courts read a claim for interest, but you use it at your own risk. Double-check your final figures with Citizens Advice or Shelter before putting them to a court, a tribunal, or in a Letter Before Action. I am not a solicitor and accept no liability for your claim.</p>
-    <h2>How the sums work — the increasing principal sum</h2>
-    <p>Most calculators put interest on one lump sum from one date. That is wrong for rent overpayments, because you paid month by month: the principal sum owed to you was increasing the whole time. Your first overpayment has been held the longest and earns the most interest; your last one the least. This tool adds each payment to the running balance on the day it was made, charges simple interest on that balance for the days until the next payment, and adds it all up. A late first payment does not shift the rest — later payments are counted on the day the rent falls due.</p>
-    <h2>Your data</h2>
-    <p>Everything runs in your browser. Nothing you type is stored, sent anywhere, or remembered — close the page and it is gone. The 8% rate is the usual county-court rate (County Courts Act 1984, s.69); you can change it if the court directs a different one.</p>
-    <p style="margin-top:12px;"><button type="button" onclick="aboutClose()">Start</button> <a href="resources.html" style="margin-left:12px; color:#38bdf8; font-size:14px;">Where to find it — the official pages for EPCs, deposits, owners and the law →</a></p>
-  </div>
-</div>
-<div id="form">
-<div class="grid">
-  <div class="field"><label>Date of the first overpayment (the day it was actually paid)</label><span class="dsel" id="d-start"></span></div>
-  <div class="field"><label>How often the rent is paid</label>
-    <select id="period" onchange="paint()"><option value="monthly">Monthly</option><option value="weekly">Weekly</option><option value="fortnightly">Fortnightly</option><option value="quarterly">Quarterly</option></select></div>
-  <div class="field" id="dueDayBox"><label>Day of the month the rent falls due</label><select id="dueDay"></select></div>
-  <div class="field hidden" id="dueWdBox"><label>Day of the week the rent falls due</label><select id="dueWd"><option value="0">Sunday</option><option value="1" selected>Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option><option value="4">Thursday</option><option value="5">Friday</option><option value="6">Saturday</option></select></div>
-  <div class="field"><label>Overpaid each time (£) — what you paid minus what was due</label><input type="number" id="amount" step="0.01" min="0" placeholder="e.g. 50"></div>
-  <div class="field"><label>Still going on?</label>
-    <select id="ongoing" onchange="paint()"><option value="yes">Yes — still being overpaid</option><option value="no">No — it stopped on a date</option></select></div>
-  <div class="field hidden" id="endBox"><label>Date of the last overpayment</label><span class="dsel" id="d-end"></span></div>
-  <div class="field"><label>Work it out as at</label><span class="dsel" id="d-asat"></span></div>
-  <div class="field"><label>Interest rate (% a year)</label><input type="number" id="rate" value="8" step="0.1" min="0"></div>
-</div>
-<p><button id="runBtn" onclick="run()">Work it out</button></p>
-</div>
 
-<div id="results" class="hidden">
-  <h2 id="stmtTitle"></h2>
-  <div class="cards">
-    <div class="card"><div>Payments</div><div class="value" id="sumCount">0</div></div>
-    <div class="card"><div>Sums overpaid</div><div class="value" id="sumPrincipal">£0.00</div></div>
-    <div class="card"><div>Interest to date</div><div class="value" id="sumInterest">£0.00</div></div>
-    <div class="card total"><div>Total</div><div class="value" id="sumTotal">£0.00</div></div>
-  </div>
-  <div class="note" id="basis"></div>
-  <div class="note"><b>How the interest is worked out.</b> Simple interest at <span id="rateTxt">8</span>% a year under section 69 of the County Courts Act 1984, claimed from the date each sum was paid. It is worked on an increasing principal sum: when each payment is made it joins the running balance, and interest for the days until the next payment is charged on that running balance only (balance × rate × days ÷ 365). Interest is never charged on interest. The same total results from charging every payment its own interest from its own date and adding them up. Whether to award interest, and at what rate, is for the court.</div>
-  <div class="note warn hidden" id="ongoingNote"></div>
-  <p><button id="printBtn" class="secondary" onclick="window.print()">🖨 Print / save as PDF</button></p>
-  <h2>Statement — one line per payment</h2>
-  <table><thead><tr><th>#</th><th>From</th><th>To</th><th>Days</th><th>Paid</th><th>Balance</th><th>Interest this period</th><th>Running total</th></tr></thead><tbody id="rows"></tbody></table>
-  <div class="foot">Prepared with the Savvy Renter rent overpayment interest calculator (savvyrenter.co.uk, increasing principal sum) on <span id="preparedOn"></span>. Figures only. <span class="nostore">Nothing entered here is stored or sent anywhere.</span></div>
-</div>
+<h2>Interest owed to you — the increasing principal sum</h2>
+<p>I built this tool to work out exactly how much my property agent owed me after an error led to an ongoing rent increase. Once I had the sums right for myself, I put it online for free to save other tenants the headache of working it out by hand.</p>
+<h3>How the sums work</h3>
+<p>Most calculators put interest on one lump sum from one date. That is wrong for rent overpayments, because you paid month by month: the principal sum owed to you was increasing the whole time. Your first overpayment has been held the longest and earns the most interest; your last one the least. This tool adds each payment to the running balance on the day it was made, charges simple interest on that balance for the days until the next payment (balance × rate × days ÷ 365), and adds it all up. Interest is never charged on interest. A late first payment does not shift the rest — later payments are counted on the day the rent falls due.</p>
+<p>The 8% rate is the usual county-court rate (County Courts Act 1984, s.69); you can change it on the page if the court directs a different one.</p>
+
+<h2>Paying off arrears — the decreasing principal sum</h2>
+<p>This tool is to help tenants figure out a fair instalment plan when they fall behind on rent. If your landlord or a court applies statutory interest to your debt, you should only pay interest on what is actually left to pay — not the original lump sum. This calculation tracks that shrinking balance monthly payment by monthly payment (or weekly, fortnightly or quarterly if that is how you pay).</p>
+<h3>How the engine works</h3>
+<p>Standard debt calculators apply interest to the whole lump sum all at once, which is a scam. As you pay off your arrears payment by payment, the core debt shrinks. This tool calculates flat, non-compounding simple interest (like the UK statutory 8% rate) on that declining balance. Every time you make a payment, the principal drops, and the interest charge goes down with it. The loop runs until the debt hits zero, tracking the exact number of payments, the final odd-sized payment, and the true interest cost.</p>
+
+<h2>Your data</h2>
+<p>Everything runs in your browser. Nothing you type is stored, sent anywhere, or remembered — close the page and it is gone. There is no server, no account, no cookie and no network call. Nothing is remembered between visits, on purpose.</p>
+
+<h2>The legal bit</h2>
+<p>These tools are provided as they are, with no guarantees. They are a guide, not formal legal advice, and you use them entirely at your own risk. I am not a solicitor and accept no liability for your claim, your debt or your tenancy status.</p>
+<p>Double-check every figure before you rely on it. Check it with Citizens Advice or Shelter before putting it to a court, a tribunal, or in a Letter Before Action, and before you put a repayment figure to your landlord &mdash; make sure you are not accidentally working from an increased amount and overpaying. If you are relying on the arrears figures as a defence against eviction, make sure they are cast iron first. If a landlord turns down a mathematically correct repayment plan, showing that you tried to establish a reasonable schedule can form part of your legal backing &mdash; but only if the numbers are completely accurate.</p>
+
+<div class="foot">Savvy Renter — savvyrenter.co.uk · free tools for renters</div>
 
 </main>
 </div>
-<script>
-// ladder_interest.js — Compliance Conduit, build 484.
-//
-// ONE engine for simple interest on an INCREASING PRINCIPAL SUM — money paid out in instalments
-// (County Courts Act 1984 s.69, 8% a year unless told otherwise). Used by
-// the Create a new case page (Money owed) and, inlined, by the standalone
-// web calculator. Pure functions, no storage, no personal data — dates and
-// numbers in, a ledger out.
-//
-// The ledger reads exactly like a month-by-month statement: at each payment
-// date the overpayment joins the running principal; interest for the days
-// until the next payment is charged on that running balance. Summing those
-// intervals is the same figure as charging each payment its own interest
-// from its own date (the "rungs") — it is just laid out the way a court
-// expects to read it.
-(function (root) {
-    const DAY = 86400000;
-    const iso = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-    const parse = (s) => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(s || '')); return m ? new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3])) : null; };
-    const clampDay = (y, mo, d) => new Date(y, mo, Math.min(d, new Date(y, mo + 1, 0).getDate()));
-
-    // The dates of the payments: the FIRST on the day it was actually made
-    // (it can be late), then every due date after it — the due day of the
-    // month for monthly/quarterly rent (31st pulls back in short months),
-    // the due weekday for weekly/fortnightly — up to and including `to`
-    // (today when blank).
-    function paymentDates(from, to, period, dueDay, dueWeekday) {
-        const a = parse(from); const b = to ? parse(to) : new Date();
-        if (!a || !b || b < a) return [];
-        const out = [a];
-        if (period === 'weekly' || period === 'fortnightly') {
-            const step = period === 'weekly' ? 7 : 14;
-            const wd = (dueWeekday === '' || dueWeekday === undefined || dueWeekday === null) ? a.getDay() : Number(dueWeekday);
-            let d = new Date(a); d.setDate(d.getDate() + ((wd - d.getDay() + 7) % 7 || 7));
-            while (d <= b && out.length < 3000) { out.push(new Date(d)); d = new Date(d); d.setDate(d.getDate() + step); }
-            return out;
-        }
-        const stepM = period === 'quarterly' ? 3 : 1;
-        const dd = Number(dueDay) || 1;
-        let d = clampDay(a.getFullYear(), a.getMonth(), dd);
-        if (d <= a) d = clampDay(a.getFullYear(), a.getMonth() + 1, dd);
-        while (d <= b && out.length < 1200) { out.push(d); d = clampDay(d.getFullYear(), d.getMonth() + stepM, dd); }
-        return out;
-    }
-
-    // events: [{ date: 'YYYY-MM-DD' | Date, amount: number, label?: string }]
-    // Returns the statement: one row per interval between payments.
-    function ledger(events, endDate, rate) {
-        const r = (rate === undefined || rate === null) ? 0.08 : Number(rate);
-        const end = endDate ? (endDate instanceof Date ? endDate : parse(endDate)) : new Date();
-        const byDay = new Map();
-        (events || []).forEach(e => {
-            const d = e.date instanceof Date ? e.date : parse(e.date);
-            const amt = Number(e.amount) || 0;
-            if (!d || amt <= 0 || d > end) return;
-            const k = iso(d);
-            const cur = byDay.get(k) || { date: new Date(d.getFullYear(), d.getMonth(), d.getDate()), amount: 0, labels: [] };
-            cur.amount += amt; if (e.label) cur.labels.push(e.label);
-            byDay.set(k, cur);
-        });
-        const days = Array.from(byDay.values()).sort((x, y) => x.date - y.date);
-        const rows = []; let principal = 0, interest = 0;
-        days.forEach((ev, i) => {
-            principal += ev.amount;
-            const next = i + 1 < days.length ? days[i + 1].date : end;
-            const n = Math.max(0, Math.floor((next - ev.date) / DAY));
-            const int = principal * r * n / 365;
-            interest += int;
-            rows.push({ n: i + 1, from: iso(ev.date), to: iso(next), days: n, added: ev.amount, principal, interest: int, running: principal + interest, labels: ev.labels });
-        });
-        return { rows, count: days.length, principal, interest, total: principal + interest, asAt: iso(end), rate: r, perDay: principal * r / 365 };
-    }
-
-    const api = { paymentDates, ledger, iso, parse };
-    if (typeof module !== 'undefined' && module.exports) module.exports = api;
-    root.LadderInterest = api;
-})(typeof window !== 'undefined' ? window : globalThis);
-// ---- page ----
-const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const gbp = (n) => '£' + (Math.round(n * 100) / 100).toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-const long = (isoS) => { const d = LadderInterest.parse(isoS); return d ? d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : ''; };
-const ord = (n) => n + (n % 10 === 1 && n !== 11 ? 'st' : n % 10 === 2 && n !== 12 ? 'nd' : n % 10 === 3 && n !== 13 ? 'rd' : 'th');
-function dateSel(id, preset) {
-  const y0 = new Date().getFullYear();
-  const el = document.getElementById(id);
-  el.innerHTML = `<select data-p="d">${Array.from({length:31},(_,i)=>`<option value="${i+1}">${i+1}</option>`).join('')}</select>` +
-    `<select data-p="m">${MONTHS.map((t,i)=>`<option value="${i+1}">${t}</option>`).join('')}</select>` +
-    `<select data-p="y">${Array.from({length:31},(_,i)=>`<option value="${y0-i}">${y0-i}</option>`).join('')}</select>`;
-  if (preset) { el.querySelector('[data-p=d]').value = preset.getDate(); el.querySelector('[data-p=m]').value = preset.getMonth()+1; el.querySelector('[data-p=y]').value = preset.getFullYear(); }
-}
-function dateVal(id) {
-  const el = document.getElementById(id);
-  const d = Number(el.querySelector('[data-p=d]').value), m = Number(el.querySelector('[data-p=m]').value), y = Number(el.querySelector('[data-p=y]').value);
-  const dim = new Date(y, m, 0).getDate();
-  return `${y}-${String(m).padStart(2,'0')}-${String(Math.min(d, dim)).padStart(2,'0')}`;
-}
-function paint() {
-  const weekly = ['weekly','fortnightly'].includes(document.getElementById('period').value);
-  document.getElementById('dueDayBox').classList.toggle('hidden', weekly);
-  document.getElementById('dueWdBox').classList.toggle('hidden', !weekly);
-  document.getElementById('endBox').classList.toggle('hidden', document.getElementById('ongoing').value === 'yes');
-}
-function run() {
-  const amount = Number(document.getElementById('amount').value);
-  const rate = Number(document.getElementById('rate').value) / 100;
-  if (!(amount > 0)) { document.getElementById('amount').focus(); return; }
-  const period = document.getElementById('period').value;
-  const ongoing = document.getElementById('ongoing').value === 'yes';
-  const from = dateVal('d-start'), asAt = dateVal('d-asat');
-  const to = ongoing ? asAt : dateVal('d-end');
-  const dueDay = Number(document.getElementById('dueDay').value), dueWd = Number(document.getElementById('dueWd').value);
-  const dates = LadderInterest.paymentDates(from, to, period, dueDay, dueWd);
-  const led = LadderInterest.ledger(dates.map(d => ({ date: d, amount })), asAt, rate);
-  document.getElementById('stmtTitle').textContent = `Statement of sums overpaid and interest — as at ${long(led.asAt)}`;
-  document.getElementById('sumCount').textContent = led.count;
-  document.getElementById('sumPrincipal').textContent = gbp(led.principal);
-  document.getElementById('sumInterest').textContent = gbp(led.interest);
-  document.getElementById('sumTotal').textContent = gbp(led.total);
-  document.getElementById('rateTxt').textContent = (rate * 100).toFixed(rate * 100 % 1 ? 1 : 0);
-  const per = { monthly: 'month', weekly: 'week', fortnightly: 'fortnight', quarterly: 'quarter' }[period];
-  const dueTxt = ['weekly','fortnightly'].includes(period) ? ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][dueWd] : `the ${ord(dueDay)} of the month`;
-  document.getElementById('basis').innerHTML = `<b>Basis.</b> Overpaid ${gbp(amount)} a ${per}, first paid on ${long(from)}${ongoing ? ' and continuing' : ', last paid on ' + long(to)}; rent falls due on ${dueTxt}. The first payment is counted on the day it was made; every later payment on the due date.`;
-  const on = document.getElementById('ongoingNote');
-  on.classList.toggle('hidden', !ongoing);
-  if (ongoing) on.innerHTML = `<b>This figure is still rising.</b> The overpayment is continuing, so the total is correct only as at ${long(led.asAt)}: it grows by about ${gbp(led.perDay)} a day in interest, plus each further payment as it falls due. Work it again on the day of the hearing and hand up the updated statement with this one.`;
-  document.getElementById('rows').innerHTML = led.rows.map(r => `<tr><td>${r.n}</td><td>${long(r.from)}</td><td>${long(r.to)}</td><td>${r.days}</td><td>${gbp(r.added)}</td><td>${gbp(r.principal)}</td><td>${gbp(r.interest)}</td><td><b>${gbp(r.running)}</b></td></tr>`).join('');
-  document.getElementById('preparedOn').textContent = long(led.asAt);
-  document.getElementById('results').classList.remove('hidden');
-}
-document.getElementById('dueDay').innerHTML = Array.from({length:31},(_,i)=>`<option value="${i+1}">${ord(i+1)}</option>`).join('');
-dateSel('d-start'); dateSel('d-end'); dateSel('d-asat', new Date());
-paint();
-function aboutOpen() { document.getElementById('about').hidden = false; }
-function aboutClose() { document.getElementById('about').hidden = true; }
-// The welcome shows on every visit — nothing is remembered between visits, on purpose.
-</script>
 </body>
 </html>
