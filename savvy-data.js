@@ -101,6 +101,59 @@ const SavvyData = (() => {
              shared: r[0], bed1: r[1], bed2: r[2], bed3: r[3], bed4: r[4] };
   }
 
+  // ---- council tax -------------------------------------------------------
+  // One file for the whole of Great Britain: the Band D charge for each
+  // authority, and the fractions that turn it into the other bands.
+  const councils = () => get('councils.json');
+
+  async function council(code) {
+    const all = await councils();
+    const a = all.la[code];
+    return a ? Object.assign({ code }, a) : null;
+  }
+
+  // Every band for one authority, as { A: 1627.90, B: 1899.22, ... }.
+  //
+  // The fractions differ by nation, which is the trap. England and Wales are
+  // ninths of Band D; Wales has a ninth band on top. Scotland kept ninths for
+  // A to D but made E to H considerably steeper in April 2017 — its Band H is
+  // 2.45 times Band D, not twice. Reading the fractions out of the file rather
+  // than carrying a copy here means there is one place to be right.
+  async function bands(code, year) {
+    const all = await councils();
+    const a = all.la[code];
+    if (!a) return null;
+    const y = year || all.years[0];
+    const d = a.bandD[y];
+    if (d == null) return null;
+    const r = all.ratios[a.nation];
+    const out = { code, name: a.name, nation: a.nation, year: y, bandD: d, bands: {} };
+    for (const band in r.bands) out.bands[band] = Math.round((d * r.bands[band] / r.den) * 100) / 100;
+    return out;
+  }
+
+  // What one household actually pays. 'discount' is a key from the file's own
+  // list — 'standard', 'single', 'oneleft', 'allgone' — so the page offers
+  // whatever the data offers instead of hard-coding the percentages.
+  async function charge(code, band, opts) {
+    const o = opts || {};
+    const all = await councils();
+    const b = await bands(code, o.year);
+    if (!b || b.bands[band] == null) return null;
+    const rule = (all.discounts || []).find(d => d.key === (o.discount || 'standard'))
+              || { key: 'standard', off: 0, label: 'Two or more adults' };
+    const full = b.bands[band];
+    const pay  = Math.round(full * (1 - rule.off) * 100) / 100;
+    // Ten instalments is the default a council will bill on; a tenant can ask
+    // for twelve and the council has to agree, so both are given.
+    return {
+      code, name: b.name, nation: b.nation, year: b.year, band,
+      full, discount: rule, off: Math.round((full - pay) * 100) / 100, yearly: pay,
+      overTen: Math.round((pay / 10) * 100) / 100,
+      overTwelve: Math.round((pay / 12) * 100) / 100
+    };
+  }
+
   // ---- reading the rent series ------------------------------------------
   // beds: 0 = any size, 1..4 = that many bedrooms. Returns null where ONS
   // published no figure, rather than guessing one.
@@ -132,5 +185,6 @@ const SavvyData = (() => {
     };
   }
 
-  return { BASE, postcode, rents, lha, lhaFor, brmaKey, atMonth, change, tidy };
+  return { BASE, postcode, rents, lha, lhaFor, brmaKey, atMonth, change, tidy,
+           councils, council, bands, charge };
 })();
