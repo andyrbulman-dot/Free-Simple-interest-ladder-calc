@@ -138,6 +138,17 @@
   .brand img { height:56px; width:auto; border-radius:8px; }
   .brand h1 { border:none; padding:0; margin:0; font-size:26px; letter-spacing:-0.2px; }
   .brand .sub { color:#94a3b8; font-size:13px; margin-top:2px; }
+  /* Feedback. The address is assembled in script when the button is used, so
+     it is not sitting in the page source for a harvester to scrape. */
+  .brand .fbwrap { margin-left:auto; text-align:right; position:relative; }
+  #fbBtn { background:#0284c7; color:#fff; border:none; border-radius:5px; font-size:13px; font-weight:bold; padding:9px 14px; cursor:pointer; font-family:inherit; }
+  #fbBtn:hover { background:#0369a1; }
+  #fbPanel { position:absolute; top:0; right:0; z-index:20; width:470px; max-width:calc(100vw - 40px); box-sizing:border-box; background:#1e293b; border:1px solid #475569; border-radius:6px; padding:10px 30px 10px 12px; text-align:left; font-size:12.5px; color:#c9d4e0; line-height:1.5; box-shadow:0 6px 18px rgba(0,0,0,.45); }
+  #fbClose { position:absolute; top:4px; right:6px; background:none; border:none; color:#94a3b8; font-size:16px; line-height:1; padding:2px 5px; cursor:pointer; font-family:inherit; }
+  #fbClose:hover { color:#f8fafc; }
+  #fbPanel a { color:#38bdf8; font-weight:bold; text-decoration:none; font-size:14px; }
+  #fbPanel a:hover { text-decoration:underline; }
+  @media print { .brand .fbwrap { display:none !important; } }
   .brand button { margin-left:auto; }
   button.small { padding:6px 12px; font-size:13px; }
   .brand .aboutlink { margin-left:auto; background:#334155; color:#fff; text-decoration:none; font-weight:bold; font-size:13px; padding:7px 13px; border-radius:5px; white-space:nowrap; }
@@ -188,10 +199,10 @@
 </head>
 <body>
 <div class="shell">
-<div class="rail"><aside class="tools"><h3>Savvy Renter</h3><a href="index.html">Home</a><a href="interest.html" class="on">Interest owed to you</a><a href="arrears.html">Paying off arrears</a><a href="resources.html">Other resources</a><div class="tiny">Free tools for renters. Nothing you type is stored or sent anywhere.</div></aside><img class="sidelogo" src="SavvyRenter-sml.png" alt="Savvy Renter"><div class="railbtns"><button type="button" id="runBtn" onclick="run()">Work it out</button><div class="railsave"><button type="button" class="small" onclick="saveCase()" title="Saves everything you have entered to a file on this computer, so you can come back and carry on.">&#128190; Save</button><button type="button" class="small" onclick="document.getElementById('loadFile').click()" title="Opens a file you saved earlier and puts every figure back.">&#128193; Load</button><input type="file" id="loadFile" accept=".json,application/json" class="hidden" onchange="loadCase(this)"><div class="savenote" id="saveNote"></div></div><button type="button" id="printBtn" class="secondary hidden" onclick="window.print()">&#128424; Print / save as PDF</button></div></div>
+<div class="rail"><aside class="tools"><h3>Savvy Renter</h3><a href="index.html">Home / About</a><a href="interest.html" class="on">Interest owed to you</a><a href="arrears.html">Paying off arrears</a><a href="resources.html">Other resources</a><div class="tiny">Free tools for renters. Nothing you type is stored or sent anywhere.</div></aside><img class="sidelogo" src="SavvyRenter-sml.png" alt="Savvy Renter"><div class="railbtns"><button type="button" id="runBtn" onclick="run()">Work it out</button><div class="railsave"><button type="button" class="small" onclick="saveCase()" title="Saves everything you have entered to a file on this computer, so you can come back and carry on.">&#128190; Save</button><button type="button" class="small" onclick="document.getElementById('loadFile').click()" title="Opens a file you saved earlier and puts every figure back.">&#128193; Load</button><input type="file" id="loadFile" accept=".json,application/json" class="hidden" onchange="loadCase(this)"><div class="savenote" id="saveNote"></div></div><button type="button" id="printBtn" class="secondary hidden" onclick="window.print()">&#128424; Print / save as PDF</button></div></div>
 <main class="page">
 <a id="top"></a>
-<div class="brand"><div><h1>Rent Overpayment Interest Calculator</h1><div class="sub">Increasing Principal Sum method · simple interest, s.69 County Courts Act 1984</div></div><a href="index.html" class="aboutlink">About these tools</a></div>
+<div class="brand"><div><h1>Rent Overpayment Interest Calculator</h1><div class="sub">Increasing Principal Sum method · simple interest, s.69 County Courts Act 1984</div></div><div class="fbwrap"><button type="button" id="fbBtn" title="Like the site? Got a suggestion for something we can include? Send us some feedback. We can't promise to respond to every email, but we will read them — and if we end up using a suggestion, we'll credit whoever sent it on the page." onclick="showFeedback()">&#9993; Feedback</button><div id="fbPanel" class="hidden"></div></div></div>
 <div class="intro">
   Worked the way a county court reads it: each overpayment joins the running balance on the day it was paid, and simple interest at 8% a year (County Courts Act 1984, s.69) is charged on that balance for the days until the next payment. A late first payment does not shift the rest — later payments are counted on the day the rent falls due.
   <b>Nothing you type is stored or sent anywhere.</b> Close the page and it is gone.
@@ -902,6 +913,20 @@ function buildProjection(pastDates, amount, rate, asAt, ongoing, period, dueDay,
 document.getElementById('dueDay').innerHTML = Array.from({length:31},(_,i)=>`<option value="${i+1}">${ord(i+1)}</option>`).join('');
 dateSel('d-start'); dateSel('d-last', new Date());
 paint();
+</script>
+<script>
+// The address is never written into the page source. It is put together only
+// when someone asks for it, which keeps the harvesters off it.
+function showFeedback() {
+  const who = ['feedback', 'savvyrenter.co.uk'].join('\u0040');
+  const p = document.getElementById('fbPanel');
+  p.innerHTML =
+    '<button type="button" id="fbClose" title="Close" onclick="hideFeedback()">\u2715</button>' +
+    '<p style="margin:0 0 6px">Suggestions, corrections, or an open-source tool we could host \u2014 we read everything, though we can\u2019t promise to answer every email. Use a suggestion and we\u2019ll credit you on the page.</p>' +
+    '<a href="mailto:' + who + '?subject=Savvy%20Renter%20feedback">' + who + '</a>';
+  p.classList.remove('hidden');
+}
+function hideFeedback() { document.getElementById('fbPanel').classList.add('hidden'); }
 </script>
 </body>
 </html>
