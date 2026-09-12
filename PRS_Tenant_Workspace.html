@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRS complaint workspace — Savvy Renter</title>
+<meta name="description" content="Draft a Property Redress Scheme complaint at your own pace, with the same character limits as the live portal, then save it to your own computer and paste it in when you are ready. Nothing you type is stored or sent anywhere.">
+<link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#0f172a">
+<link rel="canonical" href="https://www.savvyrenter.co.uk/PRS_Tenant_Workspace.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Savvy Renter">
+<meta property="og:locale" content="en_GB">
+<meta property="og:title" content="PRS complaint workspace — Savvy Renter">
+<meta property="og:description" content="Draft a Property Redress Scheme complaint at your own pace, with the same character limits as the live portal, then save it and paste it in when you are ready.">
+<meta property="og:url" content="https://www.savvyrenter.co.uk/PRS_Tenant_Workspace.html">
+<meta property="og:image" content="https://www.savvyrenter.co.uk/og-image.png">
+<meta property="og:image:secure_url" content="https://www.savvyrenter.co.uk/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Savvy Renter — free calculators for renters">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PRS complaint workspace — Savvy Renter">
+<meta name="twitter:description" content="Draft a Property Redress Scheme complaint at your own pace, then save it and paste it in when you are ready.">
+<meta name="twitter:image" content="https://www.savvyrenter.co.uk/og-image.png">
+<style>
+  body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; line-height:1.5; color:#e2e8f0; max-width:1180px; margin:0 auto; padding:24px 18px; background:#0f172a; }
+  h1 { color:#f8fafc; font-size:24px; margin-top:0; }
+  h2 { color:#f1f5f9; font-size:18px; margin:0 0 10px; border-bottom:1px solid #334155; padding-bottom:6px; }
+  p { margin:6px 0; font-size:14px; }
+  .intro, .note { background:#1e293b; border-left:4px solid #38bdf8; padding:10px 14px; margin:0 0 14px; border-radius:4px; font-size:14px; color:#c9d4e0; }
+  .brand { display:flex; align-items:center; gap:14px; border-bottom:2px solid #334155; padding-bottom:10px; margin-bottom:14px; }
+  .brand h1 { border:none; padding:0; margin:0; font-size:30px; letter-spacing:-0.2px; }
+  .brand .sub { color:#94a3b8; font-size:13px; margin-top:2px; }
+  /* Feedback. The address is assembled in script when the button is used, so
+     it is not sitting in the page source for a harvester to scrape. */
+  .brand .fbwrap { margin-left:auto; text-align:right; position:relative; }
+  #fbBtn { background:#0284c7; color:#fff; border:none; border-radius:5px; font-size:13px; font-weight:bold; padding:9px 14px; cursor:pointer; font-family:inherit; }
+  #fbBtn:hover { background:#0369a1; }
+  #fbPanel { position:absolute; top:0; right:0; z-index:20; width:470px; max-width:calc(100vw - 40px); box-sizing:border-box; background:#1e293b; border:1px solid #475569; border-radius:6px; padding:10px 30px 10px 12px; text-align:left; font-size:12.5px; color:#c9d4e0; line-height:1.5; box-shadow:0 6px 18px rgba(0,0,0,.45); }
+  #fbClose { position:absolute; top:4px; right:6px; background:none; border:none; color:#94a3b8; font-size:16px; line-height:1; padding:2px 5px; cursor:pointer; font-family:inherit; }
+  #fbClose:hover { color:#f8fafc; }
+  #fbPanel a { color:#38bdf8; font-weight:bold; text-decoration:none; font-size:14px; }
+  #fbPanel a:hover { text-decoration:underline; }
+  .hidden { display:none !important; }
+  .foot { font-size:12px; color:#94a3b8; margin-top:18px; border-top:1px solid #334155; padding-top:8px; }
+  .shell { display:flex; gap:20px; align-items:flex-start; }
+  .rail { width:200px; flex:none; position:sticky; top:18px; }
+  .tools { background:#1e293b; border:1px solid #334155; border-radius:8px; padding:12px; }
+  .sidelogo { display:block; width:100%; height:auto; border-radius:10px; margin-top:14px; }
+  .tools h3 { margin:0 0 10px; font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:#94a3b8; }
+  .tools a { display:block; background:#0284c7; color:#fff; text-decoration:none; font-weight:bold; font-size:14px; padding:9px 12px; border-radius:5px; margin-bottom:8px; }
+  .tools a:hover { background:#0369a1; }
+  .tools a.on { background:#38bdf8; color:#0f172a; }
+  .tools .tiny { font-size:11px; color:#94a3b8; margin-top:6px; }
+  .page { flex:1; min-width:0; }
+  .railbtns { margin-top:12px; }
+  .railbtns button { display:block; width:100%; box-sizing:border-box; margin-bottom:8px; padding:10px 12px; font-size:14px; }
+  .railsave { display:flex; gap:6px; margin-top:2px; flex-wrap:wrap; }
+  .railsave button.small { width:auto; flex:1; min-width:0; padding:7px 8px; font-size:12.5px; margin:0; background:#334155; white-space:nowrap; }
+  .railsave button.small:hover { background:#475569; }
+  .savenote { flex-basis:100%; font-size:11px; color:#94a3b8; min-height:14px; margin-top:2px; }
+  button { background:#0284c7; color:#fff; padding:10px 20px; border:none; border-radius:5px; font-size:15px; cursor:pointer; font-weight:bold; font-family:inherit; }
+  button:hover { background:#0369a1; }
+  button.secondary { background:#334155; }
+  button.secondary:hover { background:#475569; }
+
+  /* The six steps. Tabs stay on one row where they fit and wrap on a phone,
+     rather than scrolling sideways out of sight. */
+  .steps { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:12px; }
+  .step { background:#1e293b; border:1px solid #334155; color:#94a3b8; border-radius:5px; font-size:12.5px; font-weight:bold; padding:7px 11px; cursor:pointer; font-family:inherit; }
+  .step:hover { border-color:#38bdf8; color:#e2e8f0; background:#1e293b; }
+  .step.on { background:#38bdf8; border-color:#38bdf8; color:#0f172a; }
+  .step.done { border-color:#475569; color:#cbd5e1; }
+
+  .panel { display:none; }
+  .panel.on { display:block; }
+  .field { background:#1e293b; padding:10px 12px; border-radius:6px; border:1px solid #334155; margin-bottom:6px; }
+  label.lab { display:block; font-weight:600; margin-bottom:5px; font-size:13px; color:#94a3b8; }
+  .help { font-size:12px; color:#94a3b8; margin:0 0 6px; }
+  input[type=text], input[type=date], select, textarea {
+    width:100%; box-sizing:border-box; padding:8px 9px; border:1px solid #475569; border-radius:5px;
+    font-size:14px; background:#0f172a; color:#f8fafc; font-family:inherit; }
+  textarea { line-height:1.5; resize:vertical; }
+  input:focus, select:focus, textarea:focus { outline:none; border-color:#38bdf8; box-shadow:0 0 0 3px rgba(56,189,248,.15); }
+  .count { text-align:right; font-size:11.5px; font-weight:bold; color:#94a3b8; margin-top:3px; }
+  .count.warn { color:#fbbf24; }
+  .count.over { color:#f87171; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:6px 10px; }
+  .tick { display:flex; align-items:flex-start; gap:9px; font-size:13.5px; color:#e2e8f0; padding:3px 0; cursor:pointer; }
+  .tick input { width:18px; height:18px; margin:2px 0 0; accent-color:#38bdf8; flex:none; cursor:pointer; }
+  .navrow { display:flex; justify-content:space-between; gap:10px; margin-top:12px; }
+  .gen { width:100%; padding:13px; font-size:15px; background:#0284c7; margin-top:8px; }
+  @media (max-width:800px) { .shell { display:block; } .rail { width:auto; position:static; margin-bottom:14px; } .sidelogo { max-width:208px; } }
+  @media (max-width:700px) { body { padding:18px 12px; } .grid2 { grid-template-columns:1fr; } .field { min-width:0; } #fbPanel { width:calc(100vw - 36px); } }
+</style>
+</head>
+<body>
+<div class="shell">
+<div class="rail"><aside class="tools"><h3>Savvy Renter</h3><a href="index.html">Home / About</a><a href="interest.html">Interest owed to you</a><a href="arrears.html">Paying off arrears</a><a href="PRS_Tenant_Workspace.html" class="on">PRS complaint</a><a href="resources.html">Other resources</a><div class="tiny">Free tools for renters. Nothing you type is stored or sent anywhere.</div></aside><img class="sidelogo" src="SavvyRenter-sml.png" alt="Savvy Renter"><div class="railbtns"><div class="railsave"><button type="button" class="small" onclick="saveDraft()" title="Saves everything you have typed to a file on this computer, so you can come back and carry on.">&#128190; Save</button><button type="button" class="small" onclick="document.getElementById('loadFile').click()" title="Opens a draft you saved earlier and puts every answer back.">&#128193; Load</button><input type="file" id="loadFile" accept=".json,application/json" class="hidden" onchange="loadDraft(this)"><div class="savenote" id="saveNote"></div></div><button type="button" class="secondary" onclick="buildTextFile()">&#128196; Generate file</button></div></div>
+<main class="page">
+
+<div class="brand"><div><h1>PRS Complaint Workspace</h1><div class="sub">Draft it here at your own pace · paste it into the portal when it is ready</div></div><div class="fbwrap"><button type="button" id="fbBtn" title="Like the site? Got a suggestion for something we can include? Send us some feedback. We can't promise to respond to every email, but we will read them — and if we end up using a suggestion, we'll credit whoever sent it on the page." onclick="showFeedback()">&#9993; Feedback</button><div id="fbPanel" class="hidden"></div></div></div>
+
+<div class="intro">
+  The Property Redress Scheme portal will not let you save a part-finished complaint, so a long submission has to be written in one sitting or lost. This page is the same set of questions with the same character limits, kept on your own computer. Write it over days if you need to, save as you go, then paste the finished text into the real portal in one go.
+  <b>Nothing you type here is stored or sent anywhere.</b> It is not connected to the Property Redress Scheme and submits nothing — the real complaint is still made on their site.
+</div>
+
+<div class="steps" id="steps"></div>
+
+<form id="workspace" onsubmit="return false">
+
+  <div class="panel on">
+    <h2>1 · Eligibility</h2>
+    <p class="help">The scheme will normally only look at a complaint once the agent's own procedure has been exhausted.</p>
+    <div class="grid2">
+      <div class="field"><label class="lab">Date the formal complaint was sent to the agent</label><input type="date" id="date_complaint"></div>
+      <div class="field"><label class="lab">Date their final response was received</label><input type="date" id="date_rejection"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>2 · You and the property</h2>
+    <div class="grid2">
+      <div class="field"><label class="lab">First name</label><input type="text" id="app_firstname" placeholder="e.g. John"></div>
+      <div class="field"><label class="lab">Last name</label><input type="text" id="app_lastname" placeholder="e.g. Doe"></div>
+    </div>
+    <div class="field"><label class="lab">Address of the tenancy</label><input type="text" id="app_address" placeholder="e.g. Flat 1, 123 Example Street, Town, AB1 2CD"></div>
+    <div class="field"><label class="lab">Registered company name of the letting agent</label><input type="text" id="agent_name" placeholder="e.g. Example Lettings Agency Ltd"></div>
+  </div>
+
+  <div class="panel">
+    <h2>3 · What the complaint is about</h2>
+    <p class="help">Tick everything that applies.</p>
+    <div class="field">
+      <label class="tick"><input type="checkbox" id="cat_financial"> <span><b>Money</b> — charges, accounting, rent or deposit handling</span></label>
+      <label class="tick"><input type="checkbox" id="cat_repairs"> <span><b>Repairs and safety</b> — disrepair, hazards, certificates not provided</span></label>
+      <label class="tick"><input type="checkbox" id="cat_conduct"> <span><b>Conduct</b> — changing the agreement, pressure, threats, poor communication</span></label>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>4 · The case itself</h2>
+    <p class="help">These are the two long boxes on the real form, with the same limits. Write freely here — you can cut it down before you paste it across.</p>
+    <div class="field">
+      <label class="lab">What happened, in date order</label>
+      <textarea id="txt_chronology" rows="14" placeholder="Start at the beginning and go in date order. Dates, what was said, what was done, what was not done."></textarea>
+      <div class="count" id="count_chronology">0 / 4,000</div>
+    </div>
+    <div class="field">
+      <label class="lab">What you are asking them to put right</label>
+      <textarea id="txt_remedy" rows="6" placeholder="What you want to happen, and any sum you say you are owed, with how it is worked out."></textarea>
+      <div class="count" id="count_remedy">0 / 2,000</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>5 · Your evidence</h2>
+    <p class="help">List the documents you will attach, in the order you will upload them. Naming them here means the numbering in your account above still matches once they are on the portal.</p>
+    <div class="field"><label class="lab">Document 1</label><input type="text" id="ev_file1" placeholder="e.g. Exhibit A — tenancy agreement.pdf"></div>
+    <div class="field"><label class="lab">Document 2</label><input type="text" id="ev_file2" placeholder="e.g. Exhibit B — email chain.pdf"></div>
+    <div class="field"><label class="lab">Document 3</label><input type="text" id="ev_file3" placeholder="e.g. Exhibit C — bank statement.pdf"></div>
+    <div class="field"><label class="lab">Document 4</label><input type="text" id="ev_file4" placeholder="e.g. Exhibit D — electrical report.pdf"></div>
+    <div class="field"><label class="lab">Document 5</label><input type="text" id="ev_file5" placeholder="e.g. Exhibit E — photographs.pdf"></div>
+  </div>
+
+  <div class="panel">
+    <h2>6 · Finish</h2>
+    <div class="field"><label class="lab">Your name, as your signature</label><input type="text" id="truth_signature" placeholder="Type your full name"></div>
+    <div class="note" id="ready"></div>
+    <button type="button" class="gen" onclick="buildTextFile()">&#128196; Generate the file to work from</button>
+    <p class="help">Produces a plain text file with every answer in it, ready to copy from when you fill in the real portal. Use <b>Save</b> in the menu instead if you want to come back and keep editing here.</p>
+  </div>
+
+  <div class="navrow">
+    <button type="button" class="secondary" id="prevBtn" onclick="move(-1)" disabled>← Back</button>
+    <button type="button" id="nextBtn" onclick="move(1)">Next →</button>
+  </div>
+
+</form>
+
+<div class="foot">Savvy Renter — savvyrenter.co.uk · free tools for renters · <a href="resources.html#sources" style="color:#38bdf8;text-decoration:none">Data sources &amp; licences</a><br>Not connected to, or endorsed by, the Property Redress Scheme. This page submits nothing.</div>
+
+</main>
+</div>
+
+<script>
+// ---- the six steps ---------------------------------------------------
+const STEP_NAMES = ['1 · Eligibility','2 · You and the property','3 · What it is about','4 · The case','5 · Evidence','6 · Finish'];
+const panels = document.querySelectorAll('.panel');
+let current = 0;
+
+document.getElementById('steps').innerHTML = STEP_NAMES.map((n,i) =>
+  `<button type="button" class="step${i===0?' on':''}" onclick="go(${i})">${n}</button>`).join('');
+const steps = document.querySelectorAll('.step');
+
+function go(i) {
+  panels[current].classList.remove('on');
+  steps[current].classList.remove('on');
+  steps[current].classList.add('done');
+  current = i;
+  panels[current].classList.add('on');
+  steps[current].classList.add('on');
+  steps[current].classList.remove('done');
+  document.getElementById('prevBtn').disabled = (current === 0);
+  document.getElementById('nextBtn').disabled = (current === panels.length - 1);
+  if (current === panels.length - 1) readyCheck();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function move(d) { const n = current + d; if (n >= 0 && n < panels.length) go(n); }
+
+// ---- character counters ----------------------------------------------
+// The real portal simply stops accepting characters at the limit. Here it
+// keeps counting and turns red, so you can write it long and then cut it
+// down rather than losing the end of a sentence as you type.
+const LIMITS = { txt_chronology: 4000, txt_remedy: 2000 };
+function count(id) {
+  const el = document.getElementById(id);
+  const max = LIMITS[id];
+  const c = document.getElementById('count_' + id.replace('txt_',''));
+  const n = el.value.length;
+  c.textContent = n.toLocaleString() + ' / ' + max.toLocaleString() + (n > max ? ' — ' + (n - max).toLocaleString() + ' too many' : '');
+  c.className = 'count' + (n > max ? ' over' : (n > max * 0.9 ? ' warn' : ''));
+}
+Object.keys(LIMITS).forEach(id => {
+  document.getElementById(id).addEventListener('input', () => count(id));
+  count(id);
+});
+
+// ---- every field on the page, in one list ----------------------------
+const TEXTS = ['date_complaint','date_rejection','app_firstname','app_lastname','app_address',
+               'agent_name','txt_chronology','txt_remedy','ev_file1','ev_file2','ev_file3',
+               'ev_file4','ev_file5','truth_signature'];
+const TICKS = ['cat_financial','cat_repairs','cat_conduct'];
+const val = id => document.getElementById(id).value.trim();
+
+function readyCheck() {
+  const missing = [];
+  if (!val('app_firstname') || !val('app_lastname')) missing.push('your name');
+  if (!val('app_address')) missing.push('the property address');
+  if (!val('agent_name')) missing.push('the agent');
+  if (!val('txt_chronology')) missing.push('what happened');
+  if (!val('txt_remedy')) missing.push('what you are asking for');
+  const over = Object.keys(LIMITS).filter(id => document.getElementById(id).value.length > LIMITS[id]);
+  const el = document.getElementById('ready');
+  if (!missing.length && !over.length) {
+    el.innerHTML = '<b>Ready.</b> Everything the portal asks for is filled in and both long answers are inside their limits.';
+  } else {
+    let s = '';
+    if (missing.length) s += '<b>Still blank:</b> ' + missing.join(', ') + '. ';
+    if (over.length) s += '<b>Over the limit:</b> ' + over.map(id => id === 'txt_chronology' ? 'what happened' : 'what you are asking for').join(' and ') + ' — the portal will cut off the end.';
+    el.innerHTML = s;
+  }
+}
+
+// ---- save and load, to a file on this computer ------------------------
+function stamp() {
+  const d = new Date(), p = n => String(n).padStart(2,'0');
+  return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}`;
+}
+function say(msg) {
+  const el = document.getElementById('saveNote');
+  el.textContent = msg;
+  setTimeout(() => { if (el.textContent === msg) el.textContent = ''; }, 6000);
+}
+function saveDraft() {
+  const data = { app:'savvyrenter-prs', version:1, savedAt:new Date().toISOString(), fields:{}, ticks:{} };
+  TEXTS.forEach(id => data.fields[id] = document.getElementById(id).value);
+  TICKS.forEach(id => data.ticks[id] = document.getElementById(id).checked);
+  const blob = new Blob([JSON.stringify(data, null, 1)], { type:'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `prs-complaint-draft-${stamp()}.json`;
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 0);
+  say('Saved to your downloads.');
+}
+function loadDraft(input) {
+  const f = input.files && input.files[0];
+  input.value = '';
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    let d;
+    try { d = JSON.parse(r.result); } catch (e) { say('That file could not be read.'); return; }
+    if (!d || d.app !== 'savvyrenter-prs') { say('That is not a saved PRS draft.'); return; }
+    TEXTS.forEach(id => { if (d.fields && id in d.fields) document.getElementById(id).value = d.fields[id]; });
+    TICKS.forEach(id => { if (d.ticks && id in d.ticks) document.getElementById(id).checked = !!d.ticks[id]; });
+    Object.keys(LIMITS).forEach(count);
+    readyCheck();
+    const when = d.savedAt ? new Date(d.savedAt) : null;
+    say(when ? 'Loaded — saved ' + when.toLocaleString('en-GB') + '.' : 'Loaded.');
+  };
+  r.readAsText(f);
+}
+
+// ---- the plain text file to work from ---------------------------------
+function buildTextFile() {
+  const line = '='.repeat(72);
+  const cats = [];
+  if (document.getElementById('cat_financial').checked) cats.push('Money — charges, accounting, rent or deposit handling');
+  if (document.getElementById('cat_repairs').checked)   cats.push('Repairs and safety');
+  if (document.getElementById('cat_conduct').checked)   cats.push('Conduct');
+
+  const chron = document.getElementById('txt_chronology').value;
+  const remedy = document.getElementById('txt_remedy').value;
+  const d = new Date();
+
+  let o = '';
+  o += line + '\n';
+  o += 'PROPERTY REDRESS SCHEME — COMPLAINT WORKING COPY\n';
+  o += 'Prepared ' + d.toLocaleString('en-GB') + '\n';
+  o += line + '\n\n';
+  o += 'Complainant     ' + val('app_firstname') + ' ' + val('app_lastname') + '\n';
+  o += 'Property        ' + val('app_address') + '\n';
+  o += 'Agent           ' + val('agent_name') + '\n';
+  o += 'Complaint sent  ' + (val('date_complaint') || '(not given)') + '\n';
+  o += 'Final response  ' + (val('date_rejection') || '(not given)') + '\n\n';
+  o += 'Complaint is about:\n';
+  o += (cats.length ? cats.map(c => '  - ' + c).join('\n') : '  (nothing ticked)') + '\n\n';
+  o += line + '\n';
+  o += 'WHAT HAPPENED, IN DATE ORDER   (' + chron.length.toLocaleString() + ' of 4,000 characters)\n';
+  o += line + '\n\n' + (chron || '(blank)') + '\n\n';
+  o += line + '\n';
+  o += 'WHAT I AM ASKING THEM TO PUT RIGHT   (' + remedy.length.toLocaleString() + ' of 2,000 characters)\n';
+  o += line + '\n\n' + (remedy || '(blank)') + '\n\n';
+  o += line + '\n';
+  o += 'DOCUMENTS TO ATTACH\n';
+  o += line + '\n';
+  for (let i = 1; i <= 5; i++) {
+    const v = val('ev_file' + i);
+    if (v) o += '  ' + i + '. ' + v + '\n';
+  }
+  o += '\nSigned: ' + val('truth_signature') + '\n\n';
+  o += line + '\n';
+  o += 'Drafted with the Savvy Renter PRS complaint workspace (savvyrenter.co.uk).\n';
+  o += 'This is a working copy held on your own computer. It has not been sent to\n';
+  o += 'anyone. The complaint itself must still be submitted on the Property\n';
+  o += 'Redress Scheme website.\n';
+  o += line + '\n';
+
+  const blob = new Blob([o], { type:'text/plain;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'prs-complaint-' + stamp() + '.txt';
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 0);
+  say('Text file saved to your downloads.');
+}
+
+// ---- feedback ---------------------------------------------------------
+function showFeedback() {
+  const who = ['feedback', 'savvyrenter.co.uk'].join('@');
+  const p = document.getElementById('fbPanel');
+  p.innerHTML =
+    '<button type="button" id="fbClose" title="Close" onclick="hideFeedback()">✕</button>' +
+    '<p style="margin:0 0 6px">Suggestions, corrections, or an open-source tool we could host — we read everything, though we can’t promise to answer every email. Use a suggestion and we’ll credit you on the page.</p>' +
+    '<a href="mailto:' + who + '?subject=Savvy%20Renter%20feedback">' + who + '</a>';
+  p.classList.remove('hidden');
+}
+function hideFeedback() { document.getElementById('fbPanel').classList.add('hidden'); }
+</script>
+</body>
+</html>
