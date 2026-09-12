@@ -21,15 +21,26 @@ const SavvyData = (() => {
   // the page, so checking three flats in a row costs one request, not three.
   const cache = new Map();
 
+  // One attempt. 'how' is the browser cache mode: the first go is happy to use
+  // a stored copy, the second insists on a fresh one.
+  function attempt(path, how) {
+    return fetch(BASE + path, { cache: how }).then(r => {
+      if (r.status === 404) return null;            // asked for something that isn't there
+      if (!r.ok) throw new Error('Could not load ' + path + ' (' + r.status + ')');
+      return r.json();
+    });
+  }
+
   function get(path) {
     if (cache.has(path)) return cache.get(path);
-    const p = fetch(BASE + path, { cache: 'force-cache' })
-      .then(r => {
-        if (r.status === 404) return null;          // asked for something that isn't there
-        if (!r.ok) throw new Error('Could not load ' + path + ' (' + r.status + ')');
-        return r.json();
-      })
-      .catch(err => { cache.delete(path); throw err; });   // let a retry work
+    // If the stored copy is bad — held over from a spell when the data host was
+    // down or misconfigured — the browser would go on serving it for as long as
+    // it kept it, and the page would look broken to someone whose connection is
+    // perfectly fine. So a failure is tried once more with the cache bypassed,
+    // and only a second failure is reported.
+    const p = attempt(path, 'default')
+      .catch(() => attempt(path, 'reload'))
+      .catch(err => { cache.delete(path); throw err; });   // let a later retry work
     cache.set(path, p);
     return p;
   }
