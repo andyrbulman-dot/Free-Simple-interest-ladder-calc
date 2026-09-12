@@ -92,6 +92,11 @@
   .count.warn { color:#fbbf24; }
   .count.over { color:#f87171; }
   .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:6px 10px; }
+  .inline { display:flex; gap:6px; align-items:stretch; }
+  .inline input { flex:1; min-width:0; }
+  .checkbtn { background:#334155; font-size:12.5px; padding:8px 11px; white-space:nowrap; flex:none; }
+  .checkbtn:hover { background:#475569; }
+  @media (max-width:700px) { .inline { flex-wrap:wrap; } .checkbtn { width:100%; } }
   .tick { display:flex; align-items:flex-start; gap:9px; font-size:13.5px; color:#e2e8f0; padding:3px 0; cursor:pointer; }
   .tick input { width:18px; height:18px; margin:2px 0 0; accent-color:#38bdf8; flex:none; cursor:pointer; }
   .navrow { display:flex; justify-content:space-between; gap:10px; margin-top:12px; }
@@ -102,7 +107,7 @@
 </head>
 <body>
 <div class="shell">
-<div class="rail"><aside class="tools"><h3>Savvy Renter</h3><a href="index.html">Home / About</a><a href="interest.html">Interest owed to you</a><a href="arrears.html">Paying off arrears</a><a href="PRS_Tenant_Workspace.html" class="on">PRS complaint</a><a href="resources.html">Other resources</a><div class="tiny">Free tools for renters. Nothing you type is stored or sent anywhere.</div></aside><img class="sidelogo" src="SavvyRenter-sml.png" alt="Savvy Renter"><div class="railbtns"><div class="railsave"><button type="button" class="small" onclick="saveDraft()" title="Saves everything you have typed to a file on this computer, so you can come back and carry on.">&#128190; Save</button><button type="button" class="small" onclick="document.getElementById('loadFile').click()" title="Opens a draft you saved earlier and puts every answer back.">&#128193; Load</button><input type="file" id="loadFile" accept=".json,application/json" class="hidden" onchange="loadDraft(this)"><div class="savenote" id="saveNote"></div></div><button type="button" class="secondary" onclick="buildTextFile()">&#128196; Generate file</button></div></div>
+<div class="rail"><aside class="tools"><h3>Savvy Renter</h3><a href="index.html">Home / About</a><a href="area.html">What rent costs here</a><a href="interest.html">Interest owed to you</a><a href="arrears.html">Paying off arrears</a><a href="PRS_Tenant_Workspace.html" class="on">PRS complaint</a><a href="resources.html">Other resources</a><div class="tiny">Free tools for renters. Nothing you type is stored or sent anywhere.</div></aside><img class="sidelogo" src="SavvyRenter-sml.png" alt="Savvy Renter"><div class="railbtns"><div class="railsave"><button type="button" class="small" onclick="saveDraft()" title="Saves everything you have typed to a file on this computer, so you can come back and carry on.">&#128190; Save</button><button type="button" class="small" onclick="document.getElementById('loadFile').click()" title="Opens a draft you saved earlier and puts every answer back.">&#128193; Load</button><input type="file" id="loadFile" accept=".json,application/json" class="hidden" onchange="loadDraft(this)"><div class="savenote" id="saveNote"></div></div><button type="button" class="secondary" onclick="buildTextFile()">&#128196; Generate file</button></div></div>
 <main class="page">
 
 <div class="brand"><div><h1>PRS Complaint Workspace</h1><div class="sub">Draft it here at your own pace · paste it into the portal when it is ready</div></div><div class="fbwrap"><button type="button" id="fbBtn" title="Like the site? Got a suggestion for something we can include? Send us some feedback. We can't promise to respond to every email, but we will read them — and if we end up using a suggestion, we'll credit whoever sent it on the page." onclick="showFeedback()">&#9993; Feedback</button><div id="fbPanel" class="hidden"></div></div></div>
@@ -132,7 +137,7 @@
       <div class="field"><label class="lab">Last name</label><input type="text" id="app_lastname" placeholder="e.g. Doe"></div>
     </div>
     <div class="field"><label class="lab">Address of the tenancy</label><input type="text" id="app_address" placeholder="e.g. Flat 1, 123 Example Street, Town, AB1 2CD"></div>
-    <div class="field"><label class="lab">Registered company name of the letting agent</label><input type="text" id="agent_name" placeholder="e.g. Example Lettings Agency Ltd"></div>
+    <div class="field"><label class="lab">Registered company name of the letting agent</label><div class="inline"><input type="text" id="agent_name" placeholder="e.g. Example Lettings Agency Ltd"><button type="button" class="checkbtn" onclick="checkAgent()" title="Opens the scheme's own Agent Finder in a new tab and copies the name you typed, ready to paste into their search.">Check they are a member &#8599;</button></div><p class="help" id="agentNote" style="margin:6px 0 0">Every letting agent in England must belong to a redress scheme. If they are not in this one they should be in <a href="https://www.tpos.co.uk/find-a-member" target="_blank" rel="noopener" style="color:#38bdf8">The Property Ombudsman</a> — and if they are in neither, that is itself something the council can act on.</p></div>
   </div>
 
   <div class="panel">
@@ -352,6 +357,31 @@ function buildTextFile() {
   document.body.appendChild(a); a.click();
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 0);
   say('Text file saved to your downloads.');
+}
+
+// ---- is the agent actually a member? ----------------------------------
+// The scheme's Agent Finder is a form with no search in the address, so the
+// name goes on the clipboard and their page opens in its own tab. Nothing is
+// read from their site and nothing is sent to it.
+const AGENT_FINDER = 'https://www.propertyredress.co.uk/agent-finder';
+function checkAgent() {
+  const name = val('agent_name');
+  const note = document.getElementById('agentNote');
+  const open = () => window.open(AGENT_FINDER, '_blank', 'noopener');
+  if (!name) {
+    open();
+    note.innerHTML = 'Their Agent Finder is open in a new tab — search for the agent by name there.';
+    return;
+  }
+  const done = ok => {
+    open();
+    note.innerHTML = ok
+      ? '<b>' + name.replace(/[<>&]/g, '') + '</b> copied. Paste it into the search in the new tab.'
+      : 'Their Agent Finder is open in a new tab — search for <b>' + name.replace(/[<>&]/g, '') + '</b> there.';
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(name).then(() => done(true)).catch(() => done(false));
+  } else { done(false); }
 }
 
 // ---- feedback ---------------------------------------------------------
