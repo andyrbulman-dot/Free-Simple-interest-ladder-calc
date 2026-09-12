@@ -96,6 +96,8 @@
   .inline input { flex:1; min-width:0; }
   .checkbtn { background:#334155; font-size:12.5px; padding:8px 11px; white-space:nowrap; flex:none; }
   .checkbtn:hover { background:#475569; }
+  .echo { font-size:14px; color:#e2e8f0; }
+  .linkish { background:none; border:none; color:#38bdf8; font-size:13px; padding:0; cursor:pointer; font-family:inherit; font-weight:bold; text-decoration:underline; }
   @media (max-width:700px) { .inline { flex-wrap:wrap; } .checkbtn { width:100%; } }
   .tick { display:flex; align-items:flex-start; gap:9px; font-size:13.5px; color:#e2e8f0; padding:3px 0; cursor:pointer; }
   .tick input { width:18px; height:18px; margin:2px 0 0; accent-color:#38bdf8; flex:none; cursor:pointer; }
@@ -121,7 +123,20 @@
 
 <form id="workspace" onsubmit="return false">
 
-  <div class="panel on">
+  <div class="panel on" id="panel0">
+    <h2>0 · Is the agent even a member?</h2>
+    <p class="help">Worth two minutes before you write anything else. This scheme can only look at a complaint about one of its own members — if the agent is not one, everything you write here would go nowhere.</p>
+    <div class="field"><label class="lab">Registered company name of the letting agent</label>
+      <div class="inline"><input type="text" id="agent_name" placeholder="e.g. Example Lettings Agency Ltd">
+      <button type="button" class="checkbtn" onclick="checkAgent()" title="Opens the scheme's own Agent Finder in a new tab and copies the name you typed, ready to paste into their search.">Check they are a member &#8599;</button></div>
+      <p class="help" id="agentNote" style="margin:6px 0 0">Use the name on your tenancy agreement or their letterhead, including the Ltd — trading names often differ from the registered one, and the finder searches the registered name.</p>
+    </div>
+    <div class="note" style="margin-top:10px">
+      <b>If they are not listed.</b> Every letting agent in England must belong to a redress scheme, and there are two. Try <a href="https://www.tpos.co.uk/find-a-member" target="_blank" rel="noopener" style="color:#38bdf8">The Property Ombudsman</a> next — if that is where they are, your complaint goes to them instead and this page is the wrong form. If they are in neither, they are trading unlawfully, and your council's private-sector housing team can act on that.
+    </div>
+  </div>
+
+  <div class="panel">
     <h2>1 · Eligibility</h2>
     <p class="help">The scheme will normally only look at a complaint once the agent's own procedure has been exhausted.</p>
     <div class="grid2">
@@ -137,7 +152,7 @@
       <div class="field"><label class="lab">Last name</label><input type="text" id="app_lastname" placeholder="e.g. Doe"></div>
     </div>
     <div class="field"><label class="lab">Address of the tenancy</label><input type="text" id="app_address" placeholder="e.g. Flat 1, 123 Example Street, Town, AB1 2CD"></div>
-    <div class="field"><label class="lab">Registered company name of the letting agent</label><div class="inline"><input type="text" id="agent_name" placeholder="e.g. Example Lettings Agency Ltd"><button type="button" class="checkbtn" onclick="checkAgent()" title="Opens the scheme's own Agent Finder in a new tab and copies the name you typed, ready to paste into their search.">Check they are a member &#8599;</button></div><p class="help" id="agentNote" style="margin:6px 0 0">Every letting agent in England must belong to a redress scheme. If they are not in this one they should be in <a href="https://www.tpos.co.uk/find-a-member" target="_blank" rel="noopener" style="color:#38bdf8">The Property Ombudsman</a> — and if they are in neither, that is itself something the council can act on.</p></div>
+    <div class="field"><label class="lab">The agent</label><div id="agentEcho" class="echo">Not yet entered — <button type="button" class="linkish" onclick="go(0)">go back to step 0</button></div></div>
   </div>
 
   <div class="panel">
@@ -197,7 +212,7 @@
 
 <script>
 // ---- the six steps ---------------------------------------------------
-const STEP_NAMES = ['1 · Eligibility','2 · You and the property','3 · What it is about','4 · The case','5 · Evidence','6 · Finish'];
+const STEP_NAMES = ['0 · Member check','1 · Eligibility','2 · You and the property','3 · What it is about','4 · The case','5 · Evidence','6 · Finish'];
 const panels = document.querySelectorAll('.panel');
 let current = 0;
 
@@ -216,6 +231,7 @@ function go(i) {
   document.getElementById('prevBtn').disabled = (current === 0);
   document.getElementById('nextBtn').disabled = (current === panels.length - 1);
   if (current === panels.length - 1) readyCheck();
+  echoAgent();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function move(d) { const n = current + d; if (n >= 0 && n < panels.length) go(n); }
@@ -244,6 +260,18 @@ const TEXTS = ['date_complaint','date_rejection','app_firstname','app_lastname',
                'ev_file4','ev_file5','truth_signature'];
 const TICKS = ['cat_financial','cat_repairs','cat_conduct'];
 const val = id => document.getElementById(id).value.trim();
+
+// Whatever was typed at step 0 is the agent for the whole form — shown again
+// where it is relevant rather than asked for twice.
+function echoAgent() {
+  const el = document.getElementById('agentEcho');
+  if (!el) return;
+  const n = val('agent_name');
+  el.innerHTML = n
+    ? '<b>' + n.replace(/[<>&]/g, '') + '</b> — <button type="button" class="linkish" onclick="go(0)">change it at step 0</button>'
+    : 'Not yet entered — <button type="button" class="linkish" onclick="go(0)">go back to step 0</button>';
+}
+document.getElementById('agent_name').addEventListener('input', echoAgent);
 
 function readyCheck() {
   const missing = [];
