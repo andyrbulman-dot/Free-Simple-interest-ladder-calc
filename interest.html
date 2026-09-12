@@ -149,7 +149,6 @@
   #fbPanel a { color:#38bdf8; font-weight:bold; text-decoration:none; font-size:14px; }
   #fbPanel a:hover { text-decoration:underline; }
   @media print { .brand .fbwrap { display:none !important; } }
-  .brand button { margin-left:auto; }
   button.small { padding:6px 12px; font-size:13px; }
   .brand .aboutlink { margin-left:auto; background:#334155; color:#fff; text-decoration:none; font-weight:bold; font-size:13px; padding:7px 13px; border-radius:5px; white-space:nowrap; }
   .brand .aboutlink:hover { background:#475569; }
@@ -166,7 +165,7 @@
   .foot { font-size:12px; color:#94a3b8; margin-top:18px; border-top:1px solid #334155; padding-top:8px; }
   @media print {
     body { background:#fff; color:#000; max-width:none; padding:0; font-size:11px; }
-    #form, #runBtn, #printBtn, .railsave, #clearedBox, .endbar, .intro, .foot .nostore { display:none !important; }
+    #form, #runBtn, #printBtn, .brand .acts, #clearedBox, .endbar, .intro, .foot .nostore { display:none !important; }
     h1, h2, .card .value, .card.total .value, th { color:#000; }
     .card, table, th, td { border-color:#999; background:#fff; }
     th { background:#eee; }
@@ -183,10 +182,15 @@
   .railbtns button { display:block; width:100%; box-sizing:border-box; margin-bottom:8px; padding:10px 12px; font-size:14px; }
   /* Save and load sit under the two action buttons, smaller, because they are
      housekeeping rather than the job itself. */
-  .railsave { display:flex; gap:6px; margin-top:2px; flex-wrap:wrap; }
-  .railsave button.small { width:auto; flex:1; min-width:0; padding:7px 8px; font-size:12.5px; margin:0; background:#334155; white-space:nowrap; }
-  .railsave button.small:hover { background:#475569; }
-  .savenote { flex-basis:100%; font-size:11px; color:#94a3b8; min-height:14px; margin-top:2px; }
+  /* Save and Load live in the masthead, where the other pages keep them, so
+     the rail is left holding the one button that does the work. */
+  .brand .acts { margin-left:auto; display:flex; align-items:center; justify-content:flex-end;
+                 gap:6px; flex-wrap:wrap; }
+  .brand .acts .fbwrap { margin-left:0; }
+  .brand .act { background:#334155; color:#fff; border:none; border-radius:5px; font-size:13px;
+                font-weight:bold; padding:9px 12px; cursor:pointer; font-family:inherit; margin:0; white-space:nowrap; }
+  .brand .act:hover { background:#475569; }
+  .brand .savenote { flex-basis:100%; text-align:right; font-size:11px; color:#94a3b8; min-height:14px; margin:0; }
   .tools h3 { margin:0 0 10px; font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:#94a3b8; }
   .tools a { display:block; background:#0284c7; color:#fff; text-decoration:none; font-weight:bold; font-size:14px; padding:9px 12px; border-radius:5px; margin-bottom:8px; }
   .tools a:hover { background:#0369a1; }
@@ -211,30 +215,25 @@
   @media (max-width:800px) { .shell { display:block; } .rail { width:auto; position:static; margin-bottom:14px; } .sidelogo { max-width:208px; } }
   @media print { .rail { display:none !important; } }
 
-  /* The thin strip at the very top. The rail lost its heading to make room for
-     another tool, so the site's name lives here instead — one line, on every
-     page, costing about the height of a browser toolbar. The negative margins
-     pull it out through the body's own padding so it reads as a header rather
-     than a box floating inside the page. */
-  .topbar { margin:-24px -18px 14px; padding:5px 18px; background:#0b1220;
-             border-bottom:1px solid #1e293b; display:flex; align-items:center;
-             justify-content:space-between; gap:14px; font-size:11.5px; }
-  .topbar a { color:#94a3b8; text-decoration:none; font-weight:bold; letter-spacing:.6px;
-               text-transform:uppercase; white-space:nowrap; }
-  .topbar a:hover { color:#38bdf8; }
-  .topbar span { color:#64748b; text-align:right; }
-  /* Every page narrows its own padding to 12px on a phone, so the strip follows. */
-  @media (max-width:700px) { .topbar span { display:none; }
-                             .topbar { margin:-18px -12px 12px; padding:5px 12px; } }
+  /* The site's name, sitting above the navigation as its own bar. It used to
+     span the whole page, which cost every page a strip of height it did not
+     need to give up — here it is part of the left column instead, and the
+     content starts at the top of the screen. */
+  .navbrand { background:#0b1220; border:1px solid #1e293b; border-radius:8px;
+              padding:7px 12px; margin-bottom:8px; }
+  .navbrand a { display:block; color:#94a3b8; text-decoration:none; font-weight:bold;
+                font-size:11.5px; letter-spacing:.6px; text-transform:uppercase; }
+  .navbrand a:hover { color:#38bdf8; }
+  .navbrand .tag { display:block; font-size:10.5px; color:#64748b; letter-spacing:0;
+                   text-transform:none; font-weight:normal; margin-top:1px; }
 </style>
 </head>
 <body>
-<div class="topbar"><a href="index.html">SavvyRenter.co.uk</a><span>Free tools for renters — nothing you type is stored or sent anywhere</span></div>
 <div class="shell">
-<div class="rail"><aside class="tools"><a href="index.html">Home / About</a><a href="area.html">What rent costs here</a><a href="counciltax.html">Council tax here</a><a href="interest.html" class="on">Interest owed to you</a><a href="arrears.html">Paying off arrears</a><a href="PRS_Tenant_Workspace.html">PRS complaint</a><a href="TPO_Tenant_Workspace.html">TPO complaint</a><a href="resources.html">Other resources</a><div class="tiny">Free tools for renters. Nothing you type is stored or sent anywhere.</div></aside><img class="sidelogo" src="SavvyRenter-sml.png" alt="Savvy Renter"><div class="railbtns"><button type="button" id="runBtn" onclick="run()">Work it out</button><div class="railsave"><button type="button" class="small" onclick="saveCase()" title="Saves everything you have entered to a file on this computer, so you can come back and carry on.">&#128190; Save</button><button type="button" class="small" onclick="document.getElementById('loadFile').click()" title="Opens a file you saved earlier and puts every figure back.">&#128193; Load</button><input type="file" id="loadFile" accept=".json,application/json" class="hidden" onchange="loadCase(this)"><div class="savenote" id="saveNote"></div></div><button type="button" id="printBtn" class="secondary hidden" onclick="window.print()">&#128424; Print / save as PDF</button></div></div>
+<div class="rail"><div class="navbrand"><a href="index.html">SavvyRenter.co.uk<span class="tag">Free tools for renters — nothing you type is stored</span></a></div><aside class="tools"><a href="index.html">Home / About</a><a href="area.html">What rent costs here</a><a href="counciltax.html">Council tax here</a><a href="benefits.html">What you could claim</a><a href="interest.html" class="on">Interest owed to you</a><a href="arrears.html">Paying off arrears</a><a href="PRS_Tenant_Workspace.html">PRS complaint</a><a href="TPO_Tenant_Workspace.html">TPO complaint</a><a href="resources.html">Other resources</a></aside><img class="sidelogo" src="SavvyRenter-sml.png" alt="Savvy Renter"><div class="railbtns"><button type="button" id="runBtn" onclick="run()">Work it out</button><button type="button" id="printBtn" class="secondary hidden" onclick="window.print()">&#128424; Print / save as PDF</button></div></div>
 <main class="page">
 <a id="top"></a>
-<div class="brand"><div><h1>Rent Overpayment Interest Calculator</h1><div class="sub">Increasing Principal Sum method · simple interest, s.69 County Courts Act 1984</div></div><div class="fbwrap"><button type="button" id="fbBtn" title="Like the site? Got a suggestion for something we can include? Send us some feedback. We can't promise to respond to every email, but we will read them — and if we end up using a suggestion, we'll credit whoever sent it on the page." onclick="showFeedback()">&#9993; Feedback</button><div id="fbPanel" class="hidden"></div></div></div>
+<div class="brand"><div><h1>Rent Overpayment Interest Calculator</h1><div class="sub">Increasing Principal Sum method · simple interest, s.69 County Courts Act 1984</div></div><div class="acts"><button type="button" class="act" onclick="saveCase()" title="Saves everything you have entered to a file on this computer, so you can come back and carry on.">&#128190; Save</button><button type="button" class="act" onclick="document.getElementById('loadFile').click()" title="Opens a file you saved earlier and puts every figure back.">&#128193; Load</button><input type="file" id="loadFile" accept=".json,application/json" class="hidden" onchange="loadCase(this)"><div class="fbwrap"><button type="button" id="fbBtn" title="Like the site? Got a suggestion for something we can include? Send us some feedback. We can't promise to respond to every email, but we will read them — and if we end up using a suggestion, we'll credit whoever sent it on the page." onclick="showFeedback()">&#9993; Feedback</button><div id="fbPanel" class="hidden"></div></div><div class="savenote" id="saveNote"></div></div></div>
 <div class="intro">
   Worked the way a county court reads it: each overpayment joins the running balance on the day it was paid, and simple interest at 8% a year (County Courts Act 1984, s.69) is charged on that balance for the days until the next payment. A late first payment does not shift the rest — later payments are counted on the day the rent falls due.
   <b>Nothing you type is stored or sent anywhere.</b> Close the page and it is gone.

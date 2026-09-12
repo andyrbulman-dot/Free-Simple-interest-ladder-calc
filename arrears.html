@@ -121,27 +121,22 @@
   @media (max-width:800px) { .shell { display:block; } .rail { width:auto; position:static; margin-bottom:14px; } .sidelogo { max-width:208px; } }
   @media print { .rail { display:none !important; } }
 
-  /* The thin strip at the very top. The rail lost its heading to make room for
-     another tool, so the site's name lives here instead — one line, on every
-     page, costing about the height of a browser toolbar. The negative margins
-     pull it out through the body's own padding so it reads as a header rather
-     than a box floating inside the page. */
-  .topbar { margin:-24px -18px 14px; padding:5px 18px; background:#0b1220;
-             border-bottom:1px solid #1e293b; display:flex; align-items:center;
-             justify-content:space-between; gap:14px; font-size:11.5px; }
-  .topbar a { color:#94a3b8; text-decoration:none; font-weight:bold; letter-spacing:.6px;
-               text-transform:uppercase; white-space:nowrap; }
-  .topbar a:hover { color:#38bdf8; }
-  .topbar span { color:#64748b; text-align:right; }
-  /* Every page narrows its own padding to 12px on a phone, so the strip follows. */
-  @media (max-width:700px) { .topbar span { display:none; }
-                             .topbar { margin:-18px -12px 12px; padding:5px 12px; } }
+  /* The site's name, sitting above the navigation as its own bar. It used to
+     span the whole page, which cost every page a strip of height it did not
+     need to give up — here it is part of the left column instead, and the
+     content starts at the top of the screen. */
+  .navbrand { background:#0b1220; border:1px solid #1e293b; border-radius:8px;
+              padding:7px 12px; margin-bottom:8px; }
+  .navbrand a { display:block; color:#94a3b8; text-decoration:none; font-weight:bold;
+                font-size:11.5px; letter-spacing:.6px; text-transform:uppercase; }
+  .navbrand a:hover { color:#38bdf8; }
+  .navbrand .tag { display:block; font-size:10.5px; color:#64748b; letter-spacing:0;
+                   text-transform:none; font-weight:normal; margin-top:1px; }
 </style>
 </head>
 <body>
-<div class="topbar"><a href="index.html">SavvyRenter.co.uk</a><span>Free tools for renters — nothing you type is stored or sent anywhere</span></div>
 <div class="shell">
-<div class="rail"><aside class="tools"><a href="index.html">Home / About</a><a href="area.html">What rent costs here</a><a href="counciltax.html">Council tax here</a><a href="interest.html">Interest owed to you</a><a href="arrears.html" class="on">Paying off arrears</a><a href="PRS_Tenant_Workspace.html">PRS complaint</a><a href="TPO_Tenant_Workspace.html">TPO complaint</a><a href="resources.html">Other resources</a><div class="tiny">Free tools for renters. Nothing you type is stored or sent anywhere.</div></aside><img class="sidelogo" src="SavvyRenter-sml.png" alt="Savvy Renter"></div>
+<div class="rail"><div class="navbrand"><a href="index.html">SavvyRenter.co.uk<span class="tag">Free tools for renters — nothing you type is stored</span></a></div><aside class="tools"><a href="index.html">Home / About</a><a href="area.html">What rent costs here</a><a href="counciltax.html">Council tax here</a><a href="benefits.html">What you could claim</a><a href="interest.html">Interest owed to you</a><a href="arrears.html" class="on">Paying off arrears</a><a href="PRS_Tenant_Workspace.html">PRS complaint</a><a href="TPO_Tenant_Workspace.html">TPO complaint</a><a href="resources.html">Other resources</a></aside><img class="sidelogo" src="SavvyRenter-sml.png" alt="Savvy Renter"></div>
 <main class="page">
 <div class="brand"><div><h1>Paying Off Rent Arrears</h1><div class="sub">Decreasing principal sum · how many payments it takes to clear what you owe, with interest</div></div><div class="fbwrap"><button type="button" id="fbBtn" title="Like the site? Got a suggestion for something we can include? Send us some feedback. We can't promise to respond to every email, but we will read them — and if we end up using a suggestion, we'll credit whoever sent it on the page." onclick="showFeedback()">&#9993; Feedback</button><div id="fbPanel" class="hidden"></div></div></div>
 <div class="intro">
