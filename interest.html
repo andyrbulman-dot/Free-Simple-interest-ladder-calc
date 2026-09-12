@@ -210,11 +210,28 @@
   }
   @media (max-width:800px) { .shell { display:block; } .rail { width:auto; position:static; margin-bottom:14px; } .sidelogo { max-width:208px; } }
   @media print { .rail { display:none !important; } }
+
+  /* The thin strip at the very top. The rail lost its heading to make room for
+     another tool, so the site's name lives here instead — one line, on every
+     page, costing about the height of a browser toolbar. The negative margins
+     pull it out through the body's own padding so it reads as a header rather
+     than a box floating inside the page. */
+  .topbar { margin:-24px -18px 14px; padding:5px 18px; background:#0b1220;
+             border-bottom:1px solid #1e293b; display:flex; align-items:center;
+             justify-content:space-between; gap:14px; font-size:11.5px; }
+  .topbar a { color:#94a3b8; text-decoration:none; font-weight:bold; letter-spacing:.6px;
+               text-transform:uppercase; white-space:nowrap; }
+  .topbar a:hover { color:#38bdf8; }
+  .topbar span { color:#64748b; text-align:right; }
+  /* Every page narrows its own padding to 12px on a phone, so the strip follows. */
+  @media (max-width:700px) { .topbar span { display:none; }
+                             .topbar { margin:-18px -12px 12px; padding:5px 12px; } }
 </style>
 </head>
 <body>
+<div class="topbar"><a href="index.html">SavvyRenter.co.uk</a><span>Free tools for renters — nothing you type is stored or sent anywhere</span></div>
 <div class="shell">
-<div class="rail"><aside class="tools"><h3>Savvy Renter</h3><a href="index.html">Home / About</a><a href="area.html">What rent costs here</a><a href="interest.html" class="on">Interest owed to you</a><a href="arrears.html">Paying off arrears</a><a href="PRS_Tenant_Workspace.html">PRS complaint</a><a href="TPO_Tenant_Workspace.html">TPO complaint</a><a href="resources.html">Other resources</a><div class="tiny">Free tools for renters. Nothing you type is stored or sent anywhere.</div></aside><img class="sidelogo" src="SavvyRenter-sml.png" alt="Savvy Renter"><div class="railbtns"><button type="button" id="runBtn" onclick="run()">Work it out</button><div class="railsave"><button type="button" class="small" onclick="saveCase()" title="Saves everything you have entered to a file on this computer, so you can come back and carry on.">&#128190; Save</button><button type="button" class="small" onclick="document.getElementById('loadFile').click()" title="Opens a file you saved earlier and puts every figure back.">&#128193; Load</button><input type="file" id="loadFile" accept=".json,application/json" class="hidden" onchange="loadCase(this)"><div class="savenote" id="saveNote"></div></div><button type="button" id="printBtn" class="secondary hidden" onclick="window.print()">&#128424; Print / save as PDF</button></div></div>
+<div class="rail"><aside class="tools"><a href="index.html">Home / About</a><a href="area.html">What rent costs here</a><a href="counciltax.html">Council tax here</a><a href="interest.html" class="on">Interest owed to you</a><a href="arrears.html">Paying off arrears</a><a href="PRS_Tenant_Workspace.html">PRS complaint</a><a href="TPO_Tenant_Workspace.html">TPO complaint</a><a href="resources.html">Other resources</a><div class="tiny">Free tools for renters. Nothing you type is stored or sent anywhere.</div></aside><img class="sidelogo" src="SavvyRenter-sml.png" alt="Savvy Renter"><div class="railbtns"><button type="button" id="runBtn" onclick="run()">Work it out</button><div class="railsave"><button type="button" class="small" onclick="saveCase()" title="Saves everything you have entered to a file on this computer, so you can come back and carry on.">&#128190; Save</button><button type="button" class="small" onclick="document.getElementById('loadFile').click()" title="Opens a file you saved earlier and puts every figure back.">&#128193; Load</button><input type="file" id="loadFile" accept=".json,application/json" class="hidden" onchange="loadCase(this)"><div class="savenote" id="saveNote"></div></div><button type="button" id="printBtn" class="secondary hidden" onclick="window.print()">&#128424; Print / save as PDF</button></div></div>
 <main class="page">
 <a id="top"></a>
 <div class="brand"><div><h1>Rent Overpayment Interest Calculator</h1><div class="sub">Increasing Principal Sum method · simple interest, s.69 County Courts Act 1984</div></div><div class="fbwrap"><button type="button" id="fbBtn" title="Like the site? Got a suggestion for something we can include? Send us some feedback. We can't promise to respond to every email, but we will read them — and if we end up using a suggestion, we'll credit whoever sent it on the page." onclick="showFeedback()">&#9993; Feedback</button><div id="fbPanel" class="hidden"></div></div></div>
