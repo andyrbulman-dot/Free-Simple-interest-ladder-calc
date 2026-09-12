@@ -75,6 +75,30 @@
   .chip { background:#1e293b; border:1px solid #334155; color:#94a3b8; border-radius:5px; font-size:12.5px; font-weight:bold; padding:6px 11px; cursor:pointer; font-family:inherit; }
   .chip:hover { border-color:#38bdf8; color:#e2e8f0; }
   .chip.on { background:#38bdf8; border-color:#38bdf8; color:#0f172a; }
+  .chip.sm { font-size:11.5px; padding:4px 8px; }
+
+  /* the household box — who is renting decides the size, so it comes first */
+  .house { background:#1e293b; border:1px solid #334155; border-radius:6px; padding:8px 12px 10px; margin:12px 0 6px; }
+  .hrow { display:flex; gap:5px; flex-wrap:wrap; align-items:center; margin-top:6px; }
+  .hrow:first-child { margin-top:0; }
+  .hrow .lbl { font-size:12px; color:#94a3b8; margin-right:3px; }
+  .hrow .lbl.gap { margin-left:14px; }
+  .kids { display:flex; gap:5px; flex-wrap:wrap; align-items:center; }
+  .kid { display:inline-flex; align-items:center; gap:4px; background:#0f172a; border:1px solid #334155;
+         border-radius:5px; padding:3px 4px 3px 7px; font-size:12px; color:#94a3b8; }
+  .kid input[type=number] { width:44px; padding:3px 5px; font-size:12px; border-radius:4px; }
+  .kid .x { background:none; border:none; color:#64748b; cursor:pointer; font-size:13px; padding:0 3px; font-family:inherit; }
+  .kid .x:hover { color:#f87171; }
+  .ticks { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:2px 14px; margin-top:5px; }
+  .ticks label { display:flex; gap:7px; align-items:flex-start; font-size:12.5px; color:#c9d4e0; cursor:pointer; padding:2px 0; }
+  .ticks input { margin:2px 0 0; accent-color:#38bdf8; flex:none; }
+  .verdict { margin-top:8px; padding:7px 11px; background:#0f172a; border-left:3px solid #38bdf8;
+             border-radius:4px; font-size:13px; color:#e2e8f0; }
+  .verdict b { color:#f8fafc; }
+  .verdict .why { display:block; font-size:11.5px; color:#94a3b8; margin-top:2px; }
+  .more { background:none; border:none; color:#38bdf8; font-size:12.5px; font-weight:bold;
+          padding:2px 0; cursor:pointer; font-family:inherit; }
+  .more:hover { background:none; color:#7dd3fc; }
 
   /* the headline figure */
   .hero { background:#1e293b; border:1px solid #334155; border-radius:6px; padding:12px 14px; margin-bottom:6px; }
@@ -126,6 +150,45 @@
 
   <h2 id="areaName">Area</h2>
 
+  <div class="house">
+    <div class="hrow">
+      <span class="lbl">Who is renting:</span>
+      <button type="button" class="chip on" id="hSolo" onclick="setCouple(false)">Just me</button>
+      <button type="button" class="chip" id="hCouple" onclick="setCouple(true)">Me and a partner</button>
+      <span id="ageWrap"><span class="lbl gap">My age:</span>
+      <button type="button" class="chip on" id="hYoung" onclick="setAge(false)">Under 35</button>
+      <button type="button" class="chip" id="hOlder" onclick="setAge(true)">35 or over</button></span>
+    </div>
+
+    <div class="hrow">
+      <span class="lbl">Children living with you:</span>
+      <span class="kids" id="kidList"></span>
+      <button type="button" class="chip sm" onclick="addKid()">+ add a child</button>
+    </div>
+
+    <div class="hrow"><button type="button" class="more" id="moreBtn" onclick="toggleMore()" aria-expanded="false"><span id="moreCaret">▸</span> <span id="moreLbl">Carers, disability and other circumstances</span></button></div>
+
+    <div id="more" class="hidden">
+    <div class="ticks" id="extras">
+      <label><input type="checkbox" id="xCarer"> Someone here needs a carer to stay overnight, who does not live with us</label>
+      <label><input type="checkbox" id="xFoster"> I am an approved foster carer</label>
+      <label id="xPairWrap" class="hidden"><input type="checkbox" id="xPair"> My partner and I cannot share a bedroom because of a disability</label>
+      <label><input type="checkbox" id="xAdults"> Another adult aged 16 or over lives with us
+        <input type="number" id="nAdults" min="1" max="6" value="1" style="width:46px;padding:2px 5px;font-size:12px;margin-left:4px"></label>
+    </div>
+
+    <div class="ticks hidden" id="sarWrap">
+      <div style="grid-column:1/-1;font-size:11.5px;color:#94a3b8;margin-top:4px">On your own and under 35, you would normally only get the shared accommodation rate. Tick anything below that is true and you would get the one bedroom rate instead:</div>
+      <label><input type="checkbox" class="sar"> I get PIP daily living, or the middle or higher rate of DLA care</label>
+      <label><input type="checkbox" class="sar"> I left care and I am under 25</label>
+      <label><input type="checkbox" class="sar"> I have lived in a hostel or refuge for three months or more</label>
+      <label><input type="checkbox" class="sar"> I have experienced abuse from a partner, former partner or relative</label>
+    </div>
+    </div>
+
+    <div class="verdict" id="verdict"></div>
+  </div>
+
   <div class="filters">
     <span class="lbl">Size of place:</span>
     <button type="button" class="chip" data-beds="-1" onclick="setBeds(-1)" title="A room in a shared house or flat, with a kitchen or bathroom you share.">Room</button>
@@ -134,8 +197,6 @@
     <button type="button" class="chip on" data-beds="2" onclick="setBeds(2)">2 bed</button>
     <button type="button" class="chip" data-beds="3" onclick="setBeds(3)">3 bed</button>
     <button type="button" class="chip" data-beds="4" onclick="setBeds(4)">4+ bed</button>
-    <span class="lbl" style="margin-left:14px">Renting on your own, under 35?</span>
-    <button type="button" class="chip" id="u35" onclick="setU35()" aria-pressed="false">No</button>
   </div>
 
   <div class="hero"><div class="big" id="heroBig">—</div><div class="cap" id="heroCap"></div></div>
@@ -166,7 +227,7 @@ Rent figures: Price Index of Private Rents, ONS. Allowance figures: Local Housin
 <script>
 // ---------------------------------------------------------------- state
 // beds: -1 = a room in a shared house, 0 = any size, 1..4 = that many bedrooms.
-let place = null, series = null, rates = null, beds = 2, under35 = false, tableOpen = false;
+let place = null, series = null, rates = null, beds = 2, tableOpen = false;
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const gbp = n => '£' + Math.round(n).toLocaleString('en-GB');
 const monthLabel = m => MONTHS[Number(m.slice(5,7)) - 1] + ' ' + m.slice(0,4);
@@ -216,14 +277,122 @@ function setBeds(n) {
   document.querySelectorAll('.filters .chip[data-beds]').forEach(c => c.classList.toggle('on', Number(c.dataset.beds) === n));
   draw();
 }
-function setU35() {
-  under35 = !under35;
-  const b = document.getElementById('u35');
-  b.textContent = under35 ? 'Yes' : 'No';
-  b.classList.toggle('on', under35);
-  b.setAttribute('aria-pressed', String(under35));
-  draw();
+
+// ------------------------------------------------------------- the household
+// Who is renting decides which rate applies, so it is asked first. Everything
+// here stays in the page — it is arithmetic on what you type, not a claim.
+let couple = false, age35 = false, kids = [];
+
+function setCouple(v) {
+  couple = v;
+  document.getElementById('hSolo').classList.toggle('on', !v);
+  document.getElementById('hCouple').classList.toggle('on', v);
+  applyHousehold();
 }
+function setAge(v) {
+  age35 = v;
+  document.getElementById('hYoung').classList.toggle('on', !v);
+  document.getElementById('hOlder').classList.toggle('on', v);
+  applyHousehold();
+}
+
+function addKid() { kids.push({ age: 5, sex: 'f', own: false }); drawKids(); applyHousehold(); }
+function delKid(i) { kids.splice(i, 1); drawKids(); applyHousehold(); }
+function setKid(i, field, v) {
+  kids[i][field] = field === 'age' ? Math.max(0, Math.min(19, Number(v) || 0)) : v;
+  drawKids(); applyHousehold();
+}
+function drawKids() {
+  document.getElementById('kidList').innerHTML = kids.map((k, i) => `
+    <span class="kid">
+      <input type="number" min="0" max="19" value="${k.age}" aria-label="Age of child ${i+1}" onchange="setKid(${i},'age',this.value)"> yrs
+      <button type="button" class="chip sm${k.sex==='f'?' on':''}" onclick="setKid(${i},'sex','f')">Girl</button>
+      <button type="button" class="chip sm${k.sex==='m'?' on':''}" onclick="setKid(${i},'sex','m')">Boy</button>
+      <button type="button" class="chip sm${k.own?' on':''}" title="Cannot share a bedroom because of a disability" onclick="setKid(${i},'own',${!k.own})">own room</button>
+      <button type="button" class="x" title="Remove" onclick="delKid(${i})">✕</button>
+    </span>`).join('');
+}
+
+// How many bedrooms the rules allow. One for a couple or a single adult, one
+// for each other adult, and children paired off: two under 16 of the same sex,
+// or any two under 10. Sixteen is the age a child stops being paired at all.
+function bedroomsFor(list) {
+  const own   = list.filter(k => k.own).length;                  // cannot share
+  const rest  = list.filter(k => !k.own);
+  const adult = rest.filter(k => k.age >= 16).length;            // a room each
+  const teens = rest.filter(k => k.age >= 10 && k.age < 16);
+  let pool    = rest.filter(k => k.age < 10);
+  let rooms   = own + adult;
+
+  // Pair the 10 to 15s with each other by sex; at most one of each sex is left.
+  const odd = [];
+  ['m','f'].forEach(s => {
+    const n = teens.filter(k => k.sex === s).length;
+    rooms += Math.floor(n / 2);
+    if (n % 2) odd.push(s);
+  });
+  // A leftover one shares with a younger child of the same sex if there is one.
+  odd.forEach(s => {
+    const i = pool.findIndex(k => k.sex === s);
+    if (i >= 0) pool.splice(i, 1);
+    rooms += 1;
+  });
+  // Whoever is left is under 10 and can share with anyone.
+  return rooms + Math.ceil(pool.length / 2);
+}
+
+// The size the rules give: -1 for the shared accommodation rate, otherwise the
+// number of bedrooms, capped at four because LHA stops there however many
+// people are in the household.
+function entitled() {
+  const others = document.getElementById('xAdults').checked
+    ? Math.max(1, Number(document.getElementById('nAdults').value) || 1) : 0;
+  const exempt = [...document.querySelectorAll('.sar')].some(c => c.checked)
+    || document.getElementById('xCarer').checked;
+
+  if (!couple && !kids.length && !others && !age35 && !exempt) return { beds: -1, cap: false };
+
+  let n = 1;                                                     // you, or you both
+  if (couple && document.getElementById('xPair').checked) n += 1;
+  n += others;
+  n += bedroomsFor(kids);
+  if (document.getElementById('xCarer').checked) n += 1;
+  if (document.getElementById('xFoster').checked) n += 1;
+  return { beds: Math.min(n, 4), cap: n > 4, raw: n };
+}
+
+// Recompute, move the size chips to match, and say why.
+// Everything past the household size is kept folded away — most people need
+// none of it, and unfolding it by default would push the chart off the screen
+// on a phone. The label says what is inside, and changes to point at the
+// exemptions when those are the ones that matter.
+function toggleMore() {
+  const box = document.getElementById('more');
+  const open = box.classList.toggle('hidden') === false;
+  document.getElementById('moreCaret').textContent = open ? '▾' : '▸';
+  document.getElementById('moreBtn').setAttribute('aria-expanded', String(open));
+}
+
+function applyHousehold() {
+  // Age only decides anything for someone renting alone, so it is put away for
+  // a couple rather than left there to be answered pointlessly.
+  document.getElementById('ageWrap').classList.toggle('hidden', couple);
+  document.getElementById('xPairWrap').classList.toggle('hidden', !couple);
+  const solo = !couple && !kids.length && !age35 && !document.getElementById('xAdults').checked;
+  document.getElementById('sarWrap').classList.toggle('hidden', !solo);
+  document.getElementById('moreLbl').textContent = solo
+    ? 'Things that would lift the shared accommodation rate'
+    : 'Carers, disability and other circumstances';
+  if (series) { beds = entitled().beds; syncChips(); draw(); }
+}
+function syncChips() {
+  document.querySelectorAll('.filters .chip[data-beds]').forEach(c => c.classList.toggle('on', Number(c.dataset.beds) === beds));
+}
+['xCarer','xFoster','xPair','xAdults','nAdults'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('change', applyHousehold);
+});
+document.querySelectorAll('.sar').forEach(c => c.addEventListener('change', applyHousehold));
 
 // ---------------------------------------------------------------- the numbers
 const bedName = n => n === -1 ? 'room in a shared house'
@@ -236,14 +405,14 @@ const bedName = n => n === -1 ? 'room in a shared house'
 // whatever they rent, so the honest line to draw against a one-bedroom flat is
 // still the shared rate — showing the one-bedroom rate would overstate what
 // they would really get by a wide margin.
+const sarApplies = () => entitled().beds === -1;
 function lhaCol() {
-  if (beds === -1) return 0;
-  if (under35) return 0;
+  if (beds === -1 || sarApplies()) return 0;
   return beds;
 }
 // True when the rate on the chart is the shared one because of the age rule
 // rather than because a room was asked for.
-const cappedByAge = () => under35 && beds > 0;
+const cappedByAge = () => sarApplies() && beds > 0;
 
 function lhaSeries() {
   const k = document.getElementById('brma').value;
@@ -347,8 +516,44 @@ function draw() {
     note.innerHTML = `The orange line is the most anyone in <b>${lha.name}</b> can get towards this size of home. Where it sits below the blue line, that difference comes out of the tenant's own money every month.`;
   }
 
+  verdict(lha, lastL);
   chart(spine, pts, lpts, lha);
   if (tableOpen) buildTable(spine, pts, lpts);
+}
+
+// ---- what the rules give this household, in one line ---------------------
+function verdict(lha, lastL) {
+  const e = entitled();
+  const el = document.getElementById('verdict');
+  const rate = lha && lastL && lha.col === (e.beds === -1 ? 0 : e.beds) ? gbp(lastL.v) + ' a month' : null;
+  const size = e.beds === -1 ? 'the <b>shared accommodation rate</b> — a room in a shared house'
+                             : `the <b>${COL_NAME[e.beds]} rate</b>`;
+
+  const why = [];
+  if (e.beds === -1) why.push('on your own, under 35, and none of the exemptions ticked');
+  else {
+    why.push(couple ? 'one bedroom for the two of you' : 'one bedroom for you');
+    const k = bedroomsFor(kids);
+    if (k) why.push((k === 1 ? 'one' : k) + (kids.length === 1 ? ' for the child' : ' for the children'));
+    if (couple && document.getElementById('xPair').checked) why.push('one more as you cannot share');
+    if (document.getElementById('xAdults').checked) {
+      const n = Math.max(1, Number(document.getElementById('nAdults').value) || 1);
+      why.push(n === 1 ? 'one for the other adult' : n + ' for the other adults');
+    }
+    if (document.getElementById('xCarer').checked) why.push('one for the overnight carer');
+    if (document.getElementById('xFoster').checked) why.push('one as a foster carer');
+  }
+
+  // Say so when it is an exemption doing the work, because that is the part
+  // people get wrong about themselves.
+  const lifted = !couple && !kids.length && !age35 && e.beds !== -1
+    && ([...document.querySelectorAll('.sar')].some(c => c.checked) || document.getElementById('xCarer').checked);
+
+  el.innerHTML = `The rules give you ${size}${rate ? ' — <b>' + rate + '</b> in ' + lha.name : ''}.` +
+    `<span class="why">${why.join(', ')}` +
+    (lifted ? ' — the shared accommodation rate does not apply to you because of what you ticked' : '') +
+    (e.cap ? `. The rules work out to ${e.raw} bedrooms, but housing allowance stops at four however big the household is` : '') +
+    `. This is the most it will pay towards the rent — what you actually receive also depends on your income and savings.</span>`;
 }
 
 // ---------------------------------------------------------------- the chart
