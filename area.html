@@ -406,13 +406,17 @@ const bedName = n => n === -1 ? 'room in a shared house'
 // still the shared rate — showing the one-bedroom rate would overstate what
 // they would really get by a wide margin.
 const sarApplies = () => entitled().beds === -1;
+// The allowance is worked out from the household, not from the property. Move
+// into a bigger place and you do not get a penny more — so the orange line is
+// whatever the rules give this household, and clicking a different size above
+// changes the blue line only.
 function lhaCol() {
-  if (beds === -1 || sarApplies()) return 0;
-  return beds;
+  const e = entitled().beds;
+  return e === -1 ? 0 : e;
 }
-// True when the rate on the chart is the shared one because of the age rule
-// rather than because a room was asked for.
-const cappedByAge = () => sarApplies() && beds > 0;
+// True when someone is looking at a place bigger than their entitlement pays
+// for — the case worth warning about, because the shortfall is theirs.
+const overEntitlement = () => beds > 0 && beds > (sarApplies() ? 0 : entitled().beds);
 
 function lhaSeries() {
   const k = document.getElementById('brma').value;
@@ -451,9 +455,11 @@ function draw() {
   const hb = document.getElementById('heroBig'), hc = document.getElementById('heroCap');
   if (beds === -1) {
     hb.textContent = lastL ? gbp(lastL.v) + ' a month' : '—';
-    hc.textContent = lastL
-      ? `the most housing allowance pays towards a room in a shared house in ${lha.name}, ${monthLabel(lastL.m)}`
-      : 'pick your Broad Rental Market Area below to see the shared accommodation rate';
+    hc.textContent = !lastL
+      ? 'pick your Broad Rental Market Area below to see the shared accommodation rate'
+      : sarApplies()
+        ? `the most housing allowance pays towards a room in a shared house in ${lha.name}, ${monthLabel(lastL.m)}`
+        : `the ${COL_NAME[lha.col]} rate in ${lha.name}, ${monthLabel(lastL.m)} — what your household is entitled to, whether you rent a room or a whole home`;
   } else {
     hb.textContent = last ? gbp(last.v) + ' a month' : 'No figures';
     hc.textContent = last
@@ -486,11 +492,13 @@ function draw() {
       const l = lha.at(last.m);
       if (l) {
         const gap = last.v - l;
-        const pct = Math.round((l / last.v) * 100);
+        // The allowance is never paid above the rent actually charged, so a
+        // rate that exceeds the average is shown as covering it, not as 114%.
+        const pct = Math.min(100, Math.round((l / last.v) * 100));
         cards.push(`<div class="card"><div class="n">${gbp(Math.max(gap,0))}</div>
-          <div class="c">a month more than the allowance covers${gap > 0 ? '' : ' (the allowance covers it)'}</div></div>`);
+          <div class="c">a month more than the allowance covers${gap > 0 ? '' : ' — it covers the average rent in full'}</div></div>`);
         cards.push(`<div class="card"><div class="n">${pct}%</div>
-          <div class="c">of the average rent is met by the allowance</div></div>`);
+          <div class="c">of the average rent is met by the allowance${gap <= 0 ? ', which is never paid above the rent you are charged' : ''}</div></div>`);
       }
     }
   }
@@ -503,17 +511,24 @@ function draw() {
   // ---- the paragraph under the chart
   const finder = 'the government\'s own <a href="https://lha-direct.voa.gov.uk/" target="_blank" rel="noopener" style="color:#38bdf8">LHA postcode search</a>';
   const note = document.getElementById('lhaNote');
-  note.classList.toggle('warn', cappedByAge() && lpts.length > 0);
+  const over = overEntitlement() && lpts.length > 0;
+  note.classList.toggle('warn', over);
+  const yours = sarApplies() ? 'the <b>shared accommodation rate</b>' : `the <b>${COL_NAME[lha ? lha.col : 0]} rate</b>`;
   if (!lpts.length) {
     note.innerHTML = beds === 0
       ? 'Housing allowance is set separately for each size of home, so pick a size above to bring it onto the chart. Comparing it with an average across all sizes would not be a fair comparison.'
       : `Pick your Broad Rental Market Area below to add the allowance to the chart. If you are not sure which one you are in, ${finder} will tell you.`;
+  } else if (over) {
+    // The allowance never rises to meet a bigger property, so say what the
+    // shortfall actually is rather than leaving the two lines to imply it.
+    note.innerHTML = `You are looking at a ${bedName(beds)}, but the rules give your household ${yours} — <b>${gbp(lastL.v)} a month</b> — and that does not go up because you rent somewhere bigger. On the average ${bedName(beds)} in ${series.name} the shortfall would be <b>${gbp(Math.max((last ? last.v : 0) - lastL.v, 0))} a month</b>, out of your own money. ` +
+      (sarApplies()
+        ? `<a href="https://england.shelter.org.uk/housing_advice/benefits/benefits_for_under_35s_in_shared_housing" target="_blank" rel="noopener" style="color:#38bdf8">Several things lift the shared accommodation rate</a> — a partner, a child, care leavers under 25, some disability benefits — so check the list above before assuming it applies to you.`
+        : 'Change the household above if it does not describe you.');
   } else if (beds === -1) {
-    note.innerHTML = `The orange line is the <b>shared accommodation rate</b> for <b>${lha.name}</b> — the most housing allowance will pay towards a room in a shared house or flat. There is no blue line because ONS publish average rents for whole homes only, and nothing for individual rooms, so there is no official figure to hold it against. A room advertised above this rate leaves the difference to come out of your own money.`;
-  } else if (cappedByAge()) {
-    note.innerHTML = `You have picked a ${bedName(beds)}, but someone renting on their own under 35 is normally held to the <b>shared accommodation rate</b> however big the place is — so the orange line is that rate, not the ${COL_NAME[beds]} one. On the average ${bedName(beds)} in ${series.name} that leaves a gap of <b>${gbp(Math.max((last ? last.v : 0) - lastL.v, 0))} a month</b> to find yourself. <a href="https://england.shelter.org.uk/housing_advice/benefits/benefits_for_under_35s_in_shared_housing" target="_blank" rel="noopener" style="color:#38bdf8">Several things lift the cap</a> — living with a partner, having a child, care leavers under 25, some disability benefits, and a few others — so check before assuming it applies to you.`;
+    note.innerHTML = `The orange line is ${yours} for <b>${lha.name}</b> — the most housing allowance will pay towards your rent. There is no blue line because ONS publish average rents for whole homes only, and nothing for individual rooms, so there is no official figure to hold it against. A room advertised above this rate leaves the difference to come out of your own money.`;
   } else {
-    note.innerHTML = `The orange line is the most anyone in <b>${lha.name}</b> can get towards this size of home. Where it sits below the blue line, that difference comes out of the tenant's own money every month.`;
+    note.innerHTML = `The orange line is ${yours} for <b>${lha.name}</b> — what the rules give your household, whatever size place you rent. Where it sits below the blue line, that difference comes out of the tenant's own money every month.`;
   }
 
   verdict(lha, lastL);
