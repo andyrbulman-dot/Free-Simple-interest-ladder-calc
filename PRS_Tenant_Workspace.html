@@ -99,6 +99,13 @@
   .checkbtn { background:#334155; font-size:12.5px; padding:8px 11px; white-space:nowrap; flex:none; }
   .checkbtn:hover { background:#475569; }
   .echo { font-size:14px; color:#e2e8f0; }
+  .evrow { display:flex; gap:6px; align-items:center; }
+  .evrow input { flex:1; min-width:0; }
+  .evdel { background:none; border:1px solid #334155; color:#64748b; border-radius:5px;
+           font-size:14px; line-height:1; padding:7px 9px; cursor:pointer; flex:none; font-family:inherit; }
+  .evdel:hover { border-color:#f87171; color:#f87171; }
+  .addrow { background:#334155; font-size:12.5px; padding:7px 12px; margin-top:2px; }
+  .addrow:hover { background:#475569; }
   .linkish { background:none; border:none; color:#38bdf8; font-size:13px; padding:0; cursor:pointer; font-family:inherit; font-weight:bold; text-decoration:underline; }
   @media (max-width:700px) { .inline { flex-wrap:wrap; } .checkbtn { width:100%; } }
   .tick { display:flex; align-items:flex-start; gap:9px; font-size:13.5px; color:#e2e8f0; padding:3px 0; cursor:pointer; }
@@ -205,12 +212,9 @@
 
   <div class="panel">
     <h2>5 · Your evidence</h2>
-    <p class="help">List the documents you will attach, in the order you will upload them. Naming them here means the numbering in your account above still matches once they are on the portal.</p>
-    <div class="field"><label class="lab">Document 1</label><input type="text" id="ev_file1" placeholder="e.g. Exhibit A — tenancy agreement.pdf"></div>
-    <div class="field"><label class="lab">Document 2</label><input type="text" id="ev_file2" placeholder="e.g. Exhibit B — email chain.pdf"></div>
-    <div class="field"><label class="lab">Document 3</label><input type="text" id="ev_file3" placeholder="e.g. Exhibit C — bank statement.pdf"></div>
-    <div class="field"><label class="lab">Document 4</label><input type="text" id="ev_file4" placeholder="e.g. Exhibit D — electrical report.pdf"></div>
-    <div class="field"><label class="lab">Document 5</label><input type="text" id="ev_file5" placeholder="e.g. Exhibit E — photographs.pdf"></div>
+    <p class="help">List the documents you will attach, in the order you will upload them. Naming them here means the numbering in your account above still matches once they are on the portal. Press <b>Enter</b> on the last line and another appears.</p>
+    <div id="evList"></div>
+    <button type="button" class="addrow" onclick="addEvidence(true)">+ Add another document</button>
   </div>
 
   <div class="panel">
@@ -278,10 +282,47 @@ Object.keys(LIMITS).forEach(id => {
 
 // ---- every field on the page, in one list ----------------------------
 const TEXTS = ['date_complaint','date_rejection','app_firstname','app_lastname','app_address',
-               'agent_name','txt_chronology','txt_remedy','ev_file1','ev_file2','ev_file3',
-               'ev_file4','ev_file5','truth_signature'];
+               'agent_name','txt_chronology','txt_remedy','truth_signature'];
 const TICKS = ['cat_financial','cat_repairs','cat_conduct'];
 const val = id => document.getElementById(id).value.trim();
+
+// ---- the evidence list, which grows as it is filled --------------------
+// Five lines to start with, because that is what the portal shows. Pressing
+// Enter on the last one adds another, so a long list never runs out of room
+// and nobody has to guess how many they are allowed.
+let evidence = ['', '', '', '', ''];
+
+function drawEvidence(focusLast) {
+  document.getElementById('evList').innerHTML = evidence.map((v, i) =>
+    `<div class="field"><label class="lab" for="ev-${i}">Document ${i + 1}</label>
+      <div class="evrow">
+        <input type="text" id="ev-${i}" value="${String(v).replace(/"/g, '&quot;')}" placeholder="${i === 0 ? 'e.g. Exhibit A — tenancy agreement.pdf' : 'e.g. Exhibit ' + String.fromCharCode(65 + i) + ' — …'}">
+        ${evidence.length > 1 ? `<button type="button" class="evdel" title="Remove this line" onclick="removeEvidence(${i})">✕</button>` : ''}
+      </div></div>`).join('');
+
+  evidence.forEach((_, i) => {
+    const el = document.getElementById('ev-' + i);
+    el.addEventListener('input', () => { evidence[i] = el.value; });
+    el.addEventListener('keydown', e => {
+      if (e.key !== 'Enter') return;
+      e.preventDefault();
+      evidence[i] = el.value;
+      if (i === evidence.length - 1) { if (el.value.trim()) addEvidence(true); }
+      else document.getElementById('ev-' + (i + 1)).focus();
+    });
+  });
+  if (focusLast) {
+    const last = document.getElementById('ev-' + (evidence.length - 1));
+    if (last) last.focus();
+  }
+}
+function addEvidence(focus) { evidence.push(''); drawEvidence(focus); }
+function removeEvidence(i) {
+  evidence.splice(i, 1);
+  if (!evidence.length) evidence = [''];
+  drawEvidence(false);
+}
+drawEvidence(false);
 
 // Whatever was typed at step 0 is the agent for the whole form — shown again
 // where it is relevant rather than asked for twice.
@@ -327,6 +368,7 @@ function say(msg) {
 function saveDraft() {
   const data = { app:'savvyrenter-prs', version:1, savedAt:new Date().toISOString(), fields:{}, ticks:{} };
   TEXTS.forEach(id => data.fields[id] = document.getElementById(id).value);
+  data.evidence = evidence.slice();
   TICKS.forEach(id => data.ticks[id] = document.getElementById(id).checked);
   const blob = new Blob([JSON.stringify(data, null, 1)], { type:'application/json' });
   const a = document.createElement('a');
@@ -347,6 +389,13 @@ function loadDraft(input) {
     if (!d || d.app !== 'savvyrenter-prs') { say('That is not a saved PRS draft.'); return; }
     TEXTS.forEach(id => { if (d.fields && id in d.fields) document.getElementById(id).value = d.fields[id]; });
     TICKS.forEach(id => { if (d.ticks && id in d.ticks) document.getElementById(id).checked = !!d.ticks[id]; });
+    if (Array.isArray(d.evidence)) { evidence = d.evidence.slice(); }
+    else { // a draft saved before the list could grow
+      const old = [1,2,3,4,5].map(n => (d.fields && d.fields['ev_file' + n]) || '');
+      if (old.some(Boolean)) evidence = old;
+    }
+    if (!evidence.length) evidence = [''];
+    drawEvidence(false);
     Object.keys(LIMITS).forEach(count);
     readyCheck();
     const when = d.savedAt ? new Date(d.savedAt) : null;
@@ -388,10 +437,9 @@ function buildTextFile() {
   o += line + '\n';
   o += 'DOCUMENTS TO ATTACH\n';
   o += line + '\n';
-  for (let i = 1; i <= 5; i++) {
-    const v = val('ev_file' + i);
-    if (v) o += '  ' + i + '. ' + v + '\n';
-  }
+  const docs = evidence.map(v => String(v).trim()).filter(Boolean);
+  docs.forEach((v, i) => { o += '  ' + (i + 1) + '. ' + v + '\n'; });
+  if (!docs.length) o += '  (none listed)\n';
   o += '\nSigned: ' + val('truth_signature') + '\n\n';
   o += line + '\n';
   o += 'Drafted with the Savvy Renter PRS complaint workspace (savvyrenter.co.uk).\n';
