@@ -49,11 +49,14 @@
   .foot { font-size:12px; color:#94a3b8; margin-top:18px; border-top:1px solid #334155; padding-top:8px; }
   .foot a { color:#38bdf8; text-decoration:none; }
   .shell { display:flex; gap:20px; align-items:flex-start; }
-  .rail { width:200px; flex:none; position:sticky; top:18px; }
+  /* Capped to the screen: a sticky column taller than the viewport pins at
+     the top and whatever sits below the fold can never be reached. */
+  .rail { width:200px; flex:none; position:sticky; top:18px;
+           max-height:calc(100vh - 36px); overflow-y:auto; overscroll-behavior:contain; }
   .tools { background:#1e293b; border:1px solid #334155; border-radius:8px; padding:12px; }
   .sidelogo { display:block; width:100%; height:auto; border-radius:10px; margin-top:14px; }
   .tools h3 { margin:0 0 10px; font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:#94a3b8; }
-  .tools a { display:block; background:#0284c7; color:#fff; text-decoration:none; font-weight:bold; font-size:14px; padding:9px 12px; border-radius:5px; margin-bottom:8px; }
+  .tools a { display:block; background:#0284c7; color:#fff; text-decoration:none; font-weight:bold; font-size:14px; padding:5px 12px; border-radius:5px; margin-bottom:8px; }
   .tools a:hover { background:#0369a1; }
   .tools a.on { background:#38bdf8; color:#0f172a; }
   .tools .tiny { font-size:11px; color:#94a3b8; margin-top:6px; }
@@ -88,7 +91,7 @@
   th, td { padding:4px 9px; border-bottom:1px solid #26364a; text-align:right; }
   th { color:#94a3b8; font-weight:600; }
   th:first-child, td:first-child { text-align:left; }
-  @media (max-width:800px) { .shell { display:block; } .rail { width:auto; position:static; margin-bottom:14px; } .sidelogo { max-width:208px; } }
+  @media (max-width:800px) { .shell { display:block; } .rail { width:auto; position:static; margin-bottom:14px; max-height:none; overflow:visible; } .sidelogo { max-width:208px; } }
   @media (max-width:700px) { body { padding:18px 12px; } #fbPanel { width:calc(100vw - 36px); } #pc { width:100%; } .hero .big { font-size:27px; } }
 
   /* the band table — the row you are on is picked out, the rest is context */
