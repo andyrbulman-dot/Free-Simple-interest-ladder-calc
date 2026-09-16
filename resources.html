@@ -124,6 +124,22 @@
   .tools a { display:block; background:#0284c7; color:#fff; text-decoration:none; font-weight:bold; font-size:14px; padding:5px 12px; border-radius:5px; margin-bottom:8px; }
   .tools a:hover { background:#0369a1; }
   .tools a.on { background:#38bdf8; color:#0f172a; }
+  /* Grouped rail -- the flat list of eleven buttons was getting long, so the
+     related ones fold up. <details>/<summary>, so it works with no JS at all;
+     the group holding the page you are on is written out already open. */
+  .tools .grp { margin-bottom:8px; }
+  .tools .grp > summary { list-style:none; cursor:pointer; background:#1e293b; border:1px solid #475569;
+     color:#e2e8f0; font-weight:bold; font-size:14px; padding:5px 12px; border-radius:5px;
+     display:flex; align-items:center; justify-content:space-between; gap:6px; }
+  .tools .grp > summary::-webkit-details-marker { display:none; }
+  .tools .grp > summary::after { content:"\25BE"; font-size:11px; color:#94a3b8; }
+  .tools .grp[open] > summary::after { content:"\25B4"; }
+  .tools .grp > summary:hover { border-color:#38bdf8; color:#fff; }
+  .tools .grp > summary:focus-visible { outline:2px solid #38bdf8; outline-offset:1px; }
+  .tools .grp[open] > summary { margin-bottom:6px; }
+  .tools .grp a { margin-left:10px; font-size:13px; padding:4px 10px; }
+  .unverified { background:#3b2f0b; border-left:4px solid #f2c94c; color:#f5e6b8;
+     padding:8px 14px; margin:0 0 10px; border-radius:4px; font-size:13px; }
   .tools .tiny { font-size:11px; color:#94a3b8; margin-top:6px; }
   .page { flex:1; min-width:0; }
   @media (max-width:800px) { .shell { display:block; } .rail { width:auto; position:static; margin-bottom:14px; max-height:none; overflow:visible; } .sidelogo { max-width:208px; } }
@@ -145,7 +161,7 @@
 </head>
 <body>
 <div class="shell">
-<div class="rail"><aside class="tools"><a href="index.html">Home / About</a><a href="area.html">What rent costs here</a><a href="counciltax.html">Council tax here</a><a href="benefits.html">Benefit entitlements</a><a href="interest.html">Interest owed to you</a><a href="arrears.html">Paying off arrears</a><a href="PRS_Tenant_Workspace.html">PRS complaint</a><a href="TPO_Tenant_Workspace.html">TPO complaint</a><a href="resources.html" class="on">Other resources</a></aside><img class="sidelogo" src="SavvyRenter-sml.png" alt="Savvy Renter"></div>
+<div class="rail"><aside class="tools"><a href="index.html">Home / About</a><details class="grp"><summary>Where you live</summary><a href="area.html">What rent costs here</a><a href="counciltax.html">Council tax here</a></details><details class="grp"><summary>Money coming in</summary><a href="benefits.html">Benefit entitlements</a><a href="incoming-benefit-calc.html">Record of income</a></details><details class="grp"><summary>Money owed</summary><a href="interest.html">Interest owed to you</a><a href="arrears.html">Paying off arrears</a></details><details class="grp"><summary>Complaints &amp; claims</summary><a href="PRS_Tenant_Workspace.html">PRS complaint</a><a href="TPO_Tenant_Workspace.html">TPO complaint</a><a href="court_forms_workspace.html">Money Claim Online</a></details><a href="resources.html" class="on">Other resources</a></aside><img class="sidelogo" src="SavvyRenter-sml.png" alt="Savvy Renter"></div>
 <main class="page">
 <div class="pagebar"><a href="index.html">SavvyRenter.co.uk</a><span class="full">Free tools for renters — nothing you type is stored or sent anywhere</span><span class="brief">Nothing is stored or sent</span></div>
 <div class="brand"><div><h1>Resources</h1><div class="sub">The official places to check certificates, deposits, owners, agents and the law — every one free unless it says otherwise</div></div><div class="fbwrap"><button type="button" id="fbBtn" title="Like the site? Got a suggestion for something we can include? Send us some feedback. We can't promise to respond to every email, but we will read them — and if we end up using a suggestion, we'll credit whoever sent it on the page." onclick="showFeedback()">&#9993; Feedback</button><div id="fbPanel" class="hidden"></div></div></div>
