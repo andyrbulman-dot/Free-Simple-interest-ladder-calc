@@ -159,7 +159,7 @@
 </head>
 <body>
 <div class="shell">
-<div class="rail"><aside class="tools"><a href="index.html">Home / About</a><a href="area.html">What rent costs here</a><a href="counciltax.html">Council tax here</a><a href="benefits.html">Benefit entitlements</a><a href="interest.html">Interest owed to you</a><a href="arrears.html">Paying off arrears</a><a href="PRS_Tenant_Workspace.html" class="on">PRS complaint</a><a href="TPO_Tenant_Workspace.html">TPO complaint</a><a href="resources.html">Other resources</a></aside><img class="sidelogo" src="SavvyRenter-sml.png" alt="Savvy Renter"></div>
+<div class="rail"><aside class="tools"><a href="index.html">Home / About</a><a href="area.html">What rent costs here</a><a href="counciltax.html">Council tax here</a><a href="benefits.html">Benefit entitlements</a><a href="incoming-benefit-calc.html">Record of income</a><a href="interest.html">Interest owed to you</a><a href="arrears.html">Paying off arrears</a><a href="PRS_Tenant_Workspace.html" class="on">PRS complaint</a><a href="TPO_Tenant_Workspace.html">TPO complaint</a><a href="resources.html">Other resources</a></aside><img class="sidelogo" src="SavvyRenter-sml.png" alt="Savvy Renter"></div>
 <main class="page">
 <div class="pagebar"><a href="index.html">SavvyRenter.co.uk</a><span class="full">Free tools for renters — nothing you type is stored or sent anywhere</span><span class="brief">Nothing is stored or sent</span></div>
 
@@ -177,10 +177,9 @@
   <div class="panel on" id="panel0">
     <h2>0 · Is the agent a PRS member?</h2>
     <p class="help">Worth two minutes before you write anything else. This scheme can only look at a complaint about one of its own members — if the agent is not one, everything you write here would go nowhere.</p>
-    <div class="field"><label class="lab">Registered company name of the letting agent</label>
-      <div class="inline"><input type="text" id="agent_name" placeholder="e.g. Example Lettings Agency Ltd">
-      <button type="button" class="checkbtn" onclick="checkAgent()" title="Opens the scheme's own Agent Finder in a new tab and copies the name you typed, ready to paste into their search.">Check they are a member &#8599;</button></div>
-      <p class="help" id="agentNote" style="margin:6px 0 0">Use the name on your tenancy agreement or their letterhead, including the Ltd — trading names often differ from the registered one, and the finder searches the registered name.</p>
+    <div class="field"><label class="lab">Check the register</label>
+      <button type="button" class="checkbtn" onclick="checkAgent()" title="Opens the scheme&#39;s own member register in a new tab. You search it there.">Check they are a member &#8599;</button>
+      <p class="help" style="margin:6px 0 0">Opens in a new tab. Dismiss the cookie banner, then search for the agent by the name on your tenancy agreement or letterhead, including the Ltd &mdash; trading names often differ from the registered one.</p>
     </div>
     <div class="note" style="margin-top:10px">
       <b>If they are not listed.</b> Every letting agent in England must belong to a redress scheme, and there are two. Try <a href="https://www.tpos.co.uk/find-a-member" target="_blank" rel="noopener" style="color:#38bdf8">The Property Ombudsman</a> next — if that is where they are, your complaint goes to them instead and this page is the wrong form. If they are in neither, they are trading unlawfully, and your council's private-sector housing team can act on that.
@@ -203,7 +202,7 @@
       <div class="field"><label class="lab">Last name</label><input type="text" id="app_lastname" placeholder="e.g. Doe"></div>
     </div>
     <div class="field"><label class="lab">Address of the tenancy</label><input type="text" id="app_address" placeholder="e.g. Flat 1, 123 Example Street, Town, AB1 2CD"></div>
-    <div class="field"><label class="lab">The agent</label><div id="agentEcho" class="echo">Not yet entered — <button type="button" class="linkish" onclick="go(0)">go back to step 0</button></div></div>
+    <div class="field"><label class="lab">Registered company name of the letting agent</label><input type="text" id="agent_name" placeholder="e.g. Example Lettings Agency Ltd"></div>
   </div>
 
   <div class="panel">
@@ -278,7 +277,6 @@ function go(i) {
   document.getElementById('prevBtn').disabled = (current === 0);
   document.getElementById('nextBtn').disabled = (current === panels.length - 1);
   if (current === panels.length - 1) readyCheck();
-  echoAgent();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function move(d) { const n = current + d; if (n >= 0 && n < panels.length) go(n); }
@@ -347,15 +345,12 @@ drawEvidence(false);
 
 // Whatever was typed at step 0 is the agent for the whole form — shown again
 // where it is relevant rather than asked for twice.
-function echoAgent() {
-  const el = document.getElementById('agentEcho');
-  if (!el) return;
-  const n = val('agent_name');
-  el.innerHTML = n
-    ? '<b>' + n.replace(/[<>&]/g, '') + '</b> — <button type="button" class="linkish" onclick="go(0)">change it at step 0</button>'
-    : 'Not yet entered — <button type="button" class="linkish" onclick="go(0)">go back to step 0</button>';
-}
-document.getElementById('agent_name').addEventListener('input', echoAgent);
+// The agent's name is asked for ONCE, at step 1, with the other parties.
+// Step 0 used to carry a name box next to the register button; removed
+// because the register opens behind a cookie banner with its own search
+// box, so the name gets typed there whatever, and nothing on their page
+// needs transposing back. The echo that mirrored step 0 went with it --
+// step 1 IS the field now, so there is nothing to mirror.
 
 function readyCheck() {
   const missing = [];
@@ -484,23 +479,7 @@ function buildTextFile() {
 // read from their site and nothing is sent to it.
 const AGENT_FINDER = 'https://www.propertyredress.co.uk/agent-finder';
 function checkAgent() {
-  const name = val('agent_name');
-  const note = document.getElementById('agentNote');
-  const open = () => window.open(AGENT_FINDER, '_blank', 'noopener');
-  if (!name) {
-    open();
-    note.innerHTML = 'Their Agent Finder is open in a new tab — search for the agent by name there.';
-    return;
-  }
-  const done = ok => {
-    open();
-    note.innerHTML = ok
-      ? '<b>' + name.replace(/[<>&]/g, '') + '</b> copied. Paste it into the search in the new tab.'
-      : 'Their Agent Finder is open in a new tab — search for <b>' + name.replace(/[<>&]/g, '') + '</b> there.';
-  };
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(name).then(() => done(true)).catch(() => done(false));
-  } else { done(false); }
+  window.open(AGENT_FINDER, '_blank', 'noopener');
 }
 
 // ---- feedback ---------------------------------------------------------
