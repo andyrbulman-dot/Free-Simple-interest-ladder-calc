@@ -35,6 +35,9 @@
   .intro, .note { background:#1e293b; border-left:4px solid #38bdf8; padding:10px 14px; margin:0 0 14px; border-radius:4px; font-size:14px; color:#c9d4e0; }
   .note.warn { border-left-color:#fbbf24; color:#fde68a; }
   .grid { display:grid; grid-template-columns:1fr 1fr; gap:10px 16px; }
+  /* build 610 -- rate and Paid to share one cell, so the form does not grow a row */
+  .duo { display:grid; grid-template-columns:110px 1fr; gap:10px; }
+  .duo input { width:100%; }
   .field { background:#1e293b; padding:10px 12px; border-radius:6px; border:1px solid #334155; }
   label { display:block; font-weight:600; margin-bottom:5px; font-size:13px; color:#94a3b8; }
   input, select { padding:7px 8px; border:1px solid #475569; border-radius:5px; font-size:14px; background:#0f172a; color:#f8fafc; box-sizing:border-box; }
@@ -194,6 +197,10 @@
                 font-weight:bold; padding:9px 12px; cursor:pointer; font-family:inherit; margin:0; white-space:nowrap; }
   .brand .act:hover { background:#475569; }
   .brand .savenote { flex-basis:100%; text-align:right; font-size:11px; color:#94a3b8; min-height:14px; margin:0; }
+  /* Build 611, his: the title and Save / Load are nailed to the top as a banner;
+     everything below the line under the title scrolls beneath it. */
+  .brand { position:sticky; top:0; z-index:20; background:#0f172a; padding-top:6px; }
+  @media print { .brand { position:static; } }
   .tools h3 { margin:0 0 10px; font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:#94a3b8; }
   .tools a { display:block; background:#0284c7; color:#fff; text-decoration:none; font-weight:bold; font-size:14px; padding:5px 12px; border-radius:5px; margin-bottom:8px; }
   .tools a:hover { background:#0369a1; }
@@ -250,7 +257,7 @@
 </head>
 <body>
 <div class="shell">
-<div class="rail"><aside class="tools"><a href="index.html">Home / About</a><details class="grp"><summary>Where you live</summary><a href="area.html">What rent costs here</a><a href="counciltax.html">Council tax here</a></details><details class="grp"><summary>Money coming in</summary><a href="benefits.html">Benefit entitlements</a><a href="incoming-benefit-calc.html">Record of income</a></details><details class="grp" open><summary>Money owed</summary><a href="interest.html" class="on">Interest owed to you</a><a href="arrears.html">Paying off arrears</a></details><details class="grp"><summary>Complaints &amp; claims</summary><a href="PRS_Tenant_Workspace.html">PRS complaint</a><a href="TPO_Tenant_Workspace.html">TPO complaint</a><a href="court_forms_workspace.html">Money Claim Online</a><a href="scrubber.html">Web page data scrubber</a></details><a href="resources.html">Other resources</a></aside><img class="sidelogo" src="SavvyRenter-sml.png" alt="Savvy Renter"><div class="railbtns"><button type="button" id="runBtn" onclick="run()">Work it out</button><button type="button" id="printBtn" class="secondary hidden" onclick="window.print()">&#128424; Print / save as PDF</button></div></div>
+<div class="rail"><aside class="tools"><a href="index.html">Home / About</a><details class="grp"><summary>Where you live</summary><a href="area.html">What rent costs here</a><a href="counciltax.html">Council tax here</a></details><details class="grp"><summary>Money coming in</summary><a href="benefits.html">Benefit entitlements</a><a href="incoming-benefit-calc.html">Record of income</a></details><details class="grp" open><summary>Money owed</summary><a href="interest.html" class="on">Interest owed to you</a><a href="arrears.html">Paying off arrears</a></details><details class="grp"><summary>Complaints &amp; claims</summary><a href="PRS_Tenant_Workspace.html">PRS complaint</a><a href="TPO_Tenant_Workspace.html">TPO complaint</a><a href="court_forms_workspace.html">Money Claim Online</a><a href="scrubber.html">Web page data scrubber</a></details><details class="grp"><summary>Moving in</summary><a href="moving-in_audit.html">Moving in audit</a></details><a href="resources.html">Other resources</a></aside><img class="sidelogo" src="SavvyRenter-sml.png" alt="Savvy Renter"><div class="railbtns"><button type="button" id="runBtn" onclick="runAndShow()">Work it out</button><button type="button" id="printBtn" class="secondary hidden" onclick="window.print()">&#128424; Print / save as PDF</button></div></div>
 <main class="page">
 <div class="pagebar"><a href="index.html">SavvyRenter.co.uk</a><span class="full">Free tools for renters — nothing you type is stored or sent anywhere</span><span class="brief">Nothing is stored or sent</span></div>
 <a id="top"></a>
@@ -273,7 +280,7 @@
   <div class="field"><label>Overpaid each time (£) — what you paid minus what was due</label><input type="number" id="amount" step="0.01" min="0" placeholder="e.g. 50"></div>
   <div class="field"><label>Date of the last overpayment</label><span class="dsel" id="d-last"></span>
     <label class="ongo"><input type="checkbox" id="ongoing" checked onchange="paint()"> Still ongoing — use today's date</label></div>
-  <div class="field"><label>Interest rate (% a year)</label><input type="number" id="rate" value="8" step="0.1" min="0"></div>
+  <div class="field"><div class="duo"><div><label>Interest rate (% a year)</label><input type="number" id="rate" value="8" step="0.1" min="0"></div><div><label>Paid to (agent or landlord)</label><input type="text" id="payee" maxlength="60" placeholder="Agent / Landlord" title="Who the rent was paid to. Used to name the statement and the saved figures file, so two runs for different agents are told apart."></div></div></div>
   <div class="field"><label>Payment method</label><div class="pmgrid"><label class="mixed" title="More than one method was used over the period — tick every one that applies."><input type="checkbox" class="pm" id="pm-mixed" data-label="mixed" onchange="pmToggle(this)"> Mixed</label><label class="" title="Bank Transfer (including BACS, Faster Payments, and CHAPS): The most common electronic method. Money moves directly from your account to theirs, leaving an unalterable digital footprint."><input type="checkbox" class="pm" id="pm-transfer" data-label="bank transfer" onchange="pmToggle(this)"> Bank transfer</label><label class="" title="Standing Order: An automated instruction you set up with your bank to pay a fixed amount to the landlord at regular intervals. You maintain full control to cancel or change it."><input type="checkbox" class="pm" id="pm-standing" data-label="standing order" onchange="pmToggle(this)"> Standing order</label><label class="" title="Direct Debit: An authorization you give to the landlord allowing them to pull the funds from your account. (Rare for individual landlords, more common with massive corporate build-to-rent agencies)."><input type="checkbox" class="pm" id="pm-debit" data-label="direct debit" onchange="pmToggle(this)"> Direct debit</label><label class="" title="Cash: A perfectly legal tender, but incredibly risky without an immediate, signed, and dated physical receipt."><input type="checkbox" class="pm" id="pm-cash" data-label="cash" onchange="pmToggle(this)"> Cash</label><label class="" title="Cheque: A traditional paper directive to your bank. It is legally valid but relies on processing days and clearing cycles."><input type="checkbox" class="pm" id="pm-cheque" data-label="cheque" onchange="pmToggle(this)"> Cheque</label><label class="" title="Debit or Credit Card: Processed through an online merchant gateway or card terminal (usually restricted to larger letting agencies with commercial payment processing accounts)."><input type="checkbox" class="pm" id="pm-card" data-label="debit or credit card" onchange="pmToggle(this)"> Debit or credit card</label></div></div>
 </div>
 <div id="clearedBox" class="hidden">
@@ -714,6 +721,7 @@ function caseData() {
   return {
     app: 'savvyrenter-interest', version: CASE_VERSION, savedAt: new Date().toISOString(),
     amount: document.getElementById('amount').value,
+    payee: (document.getElementById('payee') || {}).value || '',   // build 610
     rate: document.getElementById('rate').value,
     period: document.getElementById('period').value,
     dueDay: document.getElementById('dueDay').value,
@@ -732,13 +740,24 @@ function saySaved(msg) {
   el.textContent = msg;
   setTimeout(() => { if (el.textContent === msg) el.textContent = ''; }, 6000);
 }
+// Build 610, his: the file is named for who was paid and the dates it covers,
+// so runs for different agents or landlords cannot be mixed up in a
+// folder. "Paid to" first when it is filled in; the dates in year-month-day
+// order so the files sort themselves; the brand on the end.
+function outName() {
+  const payee = String((document.getElementById('payee') || {}).value || '').replace(/[\\/:*?"<>|]+/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 60);
+  const from = dateVal('d-start') || '';
+  const to = lastPaymentIso() || '';
+  const run = (from && to) ? ` ${from} to ${to}${isOngoing() ? ' ongoing' : ''}` : '';
+  return `${payee ? payee + ' ' : ''}rent overpayment interest${run} - Savvy Renter`;
+}
 function saveCase() {
   const d = new Date();
   const stamp = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}-${String(d.getHours()).padStart(2, '0')}${String(d.getMinutes()).padStart(2, '0')}`;
   const blob = new Blob([JSON.stringify(caseData(), null, 1)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = `rent-interest-figures-${stamp}.json`;
+  a.download = `${outName()} figures.json`;   // build 610
   document.body.appendChild(a); a.click();
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 0);
   saySaved('Saved to your downloads.');
@@ -758,6 +777,7 @@ function loadCase(input) {
 }
 function applyCase(c) {
   document.getElementById('amount').value = c.amount || '';
+  if (document.getElementById('payee')) document.getElementById('payee').value = c.payee || '';   // build 610
   document.getElementById('rate').value = c.rate || 8;
   document.getElementById('period').value = c.period || 'monthly';
   document.getElementById('dueDay').value = c.dueDay || 1;
@@ -788,6 +808,19 @@ function applyCase(c) {
   saySaved(when ? `Loaded — saved ${long(LadderInterest.iso(when))}.` : 'Loaded.');
 }
 
+// Build 611, his: pressing Work it out looked as if nothing happened, because
+// the answer appeared further down the page. The page now moves down to the
+// statement heading, stopping just under the nailed banner, so the totals are
+// the first thing in view. Only on the button -- a load or a re-paint does
+// not move the page.
+function runAndShow() {
+  run();
+  const res = document.getElementById('results'), h = document.getElementById('stmtTitle');
+  if (!res || res.classList.contains('hidden') || !h) return;
+  const brand = document.querySelector('.brand');
+  h.style.scrollMarginTop = ((brand ? brand.offsetHeight : 0) + 8) + 'px';
+  h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
 function run() {
   const amount = Number(document.getElementById('amount').value);
   const rate = Number(document.getElementById('rate').value) / 100;
@@ -842,16 +875,35 @@ function run() {
   // on the row is unchanged, so every number still reconciles.
   const noteByIso = {};
   (advanced ? clearedPick : clearedBase).forEach((iso, i) => { if (clearedNote[i]) noteByIso[iso] = clearedNote[i]; });
-  document.getElementById('rows').innerHTML = led.rows.map(r => {
+  // Build 609, his: "500 pounds in one month... that interest this period
+  // figure's in the wrong place. It needs to be after the break." Once the
+  // overpayments have stopped, the last payment's row used to carry every day
+  // from that payment to today -- three years of interest printed against the
+  // month the last £50 was paid (and with a note on the row, the To date was
+  // not even shown). The payment now stands on its own row, and the interest
+  // earned since goes on a row of its own AFTER it, dated from the last
+  // payment to today. The figures are the same ledger split in two, so every
+  // total still reconciles to the penny.
+  const lastIdx = led.rows.length - 1;
+  document.getElementById('rows').innerHTML = led.rows.map((r, i) => {
     const note = noteByIso[r.from];
+    const split = !ongoing && i === lastIdx && r.days > 0;
     let dateCells;
     if (note) {
       const d = LadderInterest.parse(r.from);
       dateCells = `<td class="l noteCell" colspan="2"><b>${MONTHS[d.getMonth()]} ${d.getFullYear()}</b> — ${esc(note)}</td>`;
+    } else if (split) {
+      dateCells = `<td class="l">${long(r.from)}</td><td class="l">—</td>`;
     } else {
       dateCells = `<td class="l">${long(r.from)}</td><td class="l">${long(r.to)}</td>`;
     }
-    return `<tr><td class="l">${r.n}</td>${dateCells}<td>${r.days}</td><td>${gbp(r.added)}</td>${showM ? `<td class="l">${methodForRow(r.from)}</td>` : ''}<td>${gbp(r.principal)}</td><td>${gbp(r.interest)}</td><td><b>${gbp(r.running)}</b></td></tr>`;
+    const method = showM ? `<td class="l">${methodForRow(r.from)}</td>` : '';
+    if (!split) {
+      return `<tr><td class="l">${r.n}</td>${dateCells}<td>${r.days}</td><td>${gbp(r.added)}</td>${method}<td>${gbp(r.principal)}</td><td>${gbp(r.interest)}</td><td><b>${gbp(r.running)}</b></td></tr>`;
+    }
+    const payRow = `<tr><td class="l">${r.n}</td>${dateCells}<td>—</td><td>${gbp(r.added)}</td>${method}<td>${gbp(r.principal)}</td><td>—</td><td><b>${gbp(r.running - r.interest)}</b></td></tr>`;
+    const gapRow = `<tr><td class="l"></td><td class="l noteCell" colspan="2">${long(r.from)} to ${long(r.to)} — no further overpayments; interest runs on the balance</td><td>${r.days}</td><td>—</td>${showM ? '<td class="l"></td>' : ''}<td>${gbp(r.principal)}</td><td>${gbp(r.interest)}</td><td><b>${gbp(r.running)}</b></td></tr>`;
+    return payRow + gapRow;
   }).join('');
   // The moment it was produced, on the page and in the saved file's name. Two
   // statements run on the same day are then told apart by their filenames, and
@@ -860,7 +912,7 @@ function run() {
   const hhmm = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
   document.getElementById('preparedOn').textContent = `${long(led.asAt)} at ${hhmm}`;
   const stamp = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${hhmm.replace(':', '')}`;
-  document.title = `Rent overpayment interest statement ${stamp}`;
+  document.title = outName();   // build 610 -- the PDF takes its name from the title
   buildProjection(dates, amount, rate, asAt, ongoing, period, dueDay, dueWd);
   document.getElementById('results').classList.remove('hidden');
   document.getElementById('printBtn').classList.remove('hidden');
