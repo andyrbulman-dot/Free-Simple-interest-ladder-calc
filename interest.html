@@ -201,6 +201,11 @@
      everything below the line under the title scrolls beneath it. */
   .brand { position:sticky; top:0; z-index:20; background:#0f172a; padding-top:6px; }
   @media print { .brand { position:static; } }
+  /* Build 613, his: the month buttons printed as dark boxes on white paper and
+     their text could not be read. On paper they are white with a blue outline
+     and blue text, still clickable in the saved PDF. */
+  @media print { .monthindex a { background:#fff !important; border:1px solid #0b57d0 !important; color:#0b57d0 !important; text-decoration:none !important; } }
+
   .tools h3 { margin:0 0 10px; font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:#94a3b8; }
   .tools a { display:block; background:#0284c7; color:#fff; text-decoration:none; font-weight:bold; font-size:14px; padding:5px 12px; border-radius:5px; margin-bottom:8px; }
   .tools a:hover { background:#0369a1; }
