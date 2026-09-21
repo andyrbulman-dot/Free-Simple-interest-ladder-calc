@@ -8,7 +8,7 @@
  * everyone in that outcode asks for.
  *
  * Usage:
- *     const place = await SavvyData.postcode('PL4 6JJ');
+ *     const place = await SavvyData.postcode('SW1A 1AA');
  *     const rents = await SavvyData.rents(place.lad);
  *     const lha   = await SavvyData.lha();
  */
@@ -46,7 +46,7 @@ const SavvyData = (() => {
   }
 
   // ---- postcodes ---------------------------------------------------------
-  // Accepts anything a person might type: "pl4 6jj", "PL46JJ", " PL4  6JJ ".
+  // Accepts anything a person might type: "sw1a 1aa", "SW1A1AA", " SW1A  1AA ".
   // The last three characters of a UK postcode are always the inward code, so
   // the split is reliable without needing to know the outcode's shape.
   function tidy(raw) {
