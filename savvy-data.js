@@ -2,6 +2,9 @@
  * ---------------------------------------------------------------------------
  * Fetches the small JSON files published at data.savvyrenter.co.uk.
  *
+ * Shared module. MASTER COPY lives in www\shared-modules\savvy-data\.
+ * Projects get a copy through sync-modules.bat; edit here, never in a project.
+ *
  * Nothing about the user is sent anywhere. A postcode typed into a page is
  * used to work out which file to ask for and never leaves the browser beyond
  * that: the request is for a file named after the outcode, the same file
@@ -79,6 +82,23 @@ const SavvyData = (() => {
       lat: row[2],
       lon: row[3]
     };
+  }
+
+  // ---- broad rental market area -----------------------------------------
+  // Which BRMA (the area Local Housing Allowance is set for) a postcode is in.
+  // Built by shared-modules/brma-lookup from the ONS postcode file and the
+  // official boundaries; one small file per postcode district. Returns the
+  // BRMA name — the same names the housing allowance file uses — or null if
+  // the postcode is not found, so a page can fall back to its list.
+  async function brma(raw) {
+    const t = tidy(raw);
+    if (!t) return null;
+    let file;
+    try { file = await get('brma/' + t.outcode + '.json'); } catch (e) { return null; }
+    if (!file) return null;
+    if (file.b) return file.b;
+    const i = file.p ? file.p[t.unit] : undefined;
+    return i === undefined ? null : file.n[i];
   }
 
   // ---- the rent index ----------------------------------------------------
@@ -185,6 +205,6 @@ const SavvyData = (() => {
     };
   }
 
-  return { BASE, postcode, rents, lha, lhaFor, brmaKey, atMonth, change, tidy,
+  return { BASE, postcode, brma, rents, lha, lhaFor, brmaKey, atMonth, change, tidy,
            councils, council, bands, charge };
 })();
